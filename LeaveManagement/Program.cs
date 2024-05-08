@@ -1,5 +1,7 @@
 
+using DomainLayer.AcessLayer;
 using DomainLayer.Data;
+using DomainLayer.UnitOfWork;
 using LeaveManagement.AutoMapperProfile;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,19 @@ builder.Services.AddDbContext<LeaveDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("LeaveManagement"))
 );
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
+});
 // Add services to the container.
 //yyo chai cookie create garne save garna claimidentity lai ani login ra logout garne path haru ho 
 builder.Services.AddAuthentication(
@@ -21,12 +36,16 @@ builder.Services.AddAuthentication(
     {
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
+        options.ExpireTimeSpan= TimeSpan.FromMinutes(30);
+        options.AccessDeniedPath = "/";
     });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();
 //auto mapper
 builder.Services.AddAutoMapper(typeof(MapperProfile));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 var app = builder.Build();
 
@@ -37,6 +56,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
 }
+app.UseSession();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 

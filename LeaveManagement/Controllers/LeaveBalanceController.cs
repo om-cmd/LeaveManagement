@@ -2,6 +2,7 @@
 using DomainLayer.AcessLayer;
 using DomainLayer.Models;
 using LeaveManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using PresentationLayer.ViewModels;
 
 namespace LeaveManagement.Controllers
 {
+    [Authorize]
+
     [Route("api/[controller]")]
     [ApiController]
     public class LeaveBalanceController : ControllerBase

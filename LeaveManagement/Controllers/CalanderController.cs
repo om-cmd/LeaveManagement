@@ -7,6 +7,7 @@ using PresentationLayer.ViewModels;
 
 namespace LeaveManagement.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CalanderController : ControllerBase

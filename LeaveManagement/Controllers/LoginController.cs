@@ -22,9 +22,9 @@ namespace LeaveManagement.Controllers
 
         }
         [HttpPost("Login")]
-        public IActionResult Login(LoginViewModel login, string email, string password)
+        public IActionResult Login(LoginViewModel login, string username, string password)
         {
-            var authenticatedUser = _unitOfWork.Context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            var authenticatedUser = _unitOfWork.Context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

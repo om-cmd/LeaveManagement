@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DomainLayer.AcessLayer;
 using LeaveManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ using PresentationLayer.VIewModels;
 
 namespace LeaveManagement.Controllers
 {
+    [Authorize]
+
     [ApiController]
     [Route("api/[controller]")]
 
