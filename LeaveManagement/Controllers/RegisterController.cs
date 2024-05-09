@@ -2,13 +2,11 @@
 using DomainLayer.AcessLayer;
 using DomainLayer.ViewModels;
 using LeaveManagement.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveManagement.Controllers
 {
-    
+
 
     [Route("api/[controller]")]
     [ApiController]

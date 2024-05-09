@@ -19,7 +19,7 @@ namespace LeaveManagement.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult CalanderList(DateTime startDate, DateTime endDate)
         {
@@ -37,27 +37,54 @@ namespace LeaveManagement.Controllers
                 return StatusCode(500, $"An error occurred while retrieving calendar events: {ex.Message}");
             }
         }
+        [HttpGet("{id}")]
+        public IActionResult GetHoliday(int id)
+        {
+            try
+            {
+                var holiday = _unitOfWork.Context.HolidayCalanders.Find(id);
+
+                if (holiday == null)
+                {
+                    return NotFound("Holiday not found");
+                }
+
+                var holidayViewModel = _mapper.Map<CalanderViewModel>(holiday);
+
+                return Ok(holidayViewModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving holiday: {ex.Message}");
+            }
+        }
         [HttpPost("add")]
         public IActionResult AddHoliday([FromBody] CalanderViewModel holidayViewModel)
         {
             try
             {
-                // Map view model to domain model
+                if (holidayViewModel == null)
+                {
+                    return BadRequest("Invalid holiday data");
+                }
+
+                // Validate holidayViewModel here if necessary
+
                 var holiday = _mapper.Map<Calander>(holidayViewModel);
+                holiday.IsPublicHoliday = true;
 
-                holiday.IsPublicHoliday= true;
-
-                // Add the holiday to the database
                 _unitOfWork.Context.HolidayCalanders.Add(holiday);
                 _unitOfWork.Context.SaveChanges();
 
-                return Ok("Holiday added successfully");
+                // Return the created holiday object or its ID
+                return CreatedAtAction(nameof(GetHoliday), new { id = holiday.HolidayCalendarID }, holiday);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while adding holiday: {ex.Message}");
             }
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult RemoveHoliday(int id)
@@ -70,7 +97,7 @@ namespace LeaveManagement.Controllers
                 {
                     return NotFound("Holiday not found");
                 }
-                holiday.IsPublicHoliday= false;
+                holiday.IsPublicHoliday = false;
 
                 // Remove the holiday from the database
                 _unitOfWork.Context.HolidayCalanders.Remove(holiday);

@@ -58,14 +58,6 @@ namespace LeaveManagement.Controllers
                 return StatusCode(500, new { error = "An error occurred during login", message = ex.Message });
             }
         }
-        [HttpPost("Logout")]
-        public async Task<IActionResult> Logout()
-        {
-            //yo chai logout garne savai remove hanxa cookie ko removie handinxa tyo call hanesi 
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Login");
-        }
-
 
     }
 }

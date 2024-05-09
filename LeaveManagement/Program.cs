@@ -13,14 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LeaveDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("LeaveManagement"))
 );
-
+//cookie ko ploicy configure haneko 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
-    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+    // cross side validation jasgtei ho attack rokna 
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
-
+//cookie configure haneko 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
@@ -28,15 +28,14 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 // Add services to the container.
-//yyo chai cookie create garne save garna claimidentity lai ani login ra logout garne path haru ho 
+//yyo chai authentication configure garne save garna claimidentity lai ani login ra logout garne path haru ho 
 builder.Services.AddAuthentication(
     CookieAuthenticationDefaults.AuthenticationScheme
 ).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
     options =>
     {
         options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.ExpireTimeSpan= TimeSpan.FromMinutes(30);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.AccessDeniedPath = "/";
     });
 builder.Services.AddControllers();
