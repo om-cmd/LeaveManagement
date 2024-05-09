@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveManagement.Controllers
 {
-    [Authorize]
+    
 
     [Route("api/[controller]")]
     [ApiController]
