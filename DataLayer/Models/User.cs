@@ -1,10 +1,13 @@
-﻿using DomainLayer.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeaveManagement.Models
 {
     public class User
     {
-        public int UserID { get; set; }
+        [Key]
+        public int Id { get; set; }
+       
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
@@ -15,6 +18,9 @@ namespace LeaveManagement.Models
         public DateTime DateCreated { get; set; }
 
         public DateTime DateRemoved { get; set; }
+
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
 
     }
 }

@@ -3,7 +3,7 @@
     public enum Roles
     {
         Admin,
-        Employee
+        User
     }
     public enum Position
     {

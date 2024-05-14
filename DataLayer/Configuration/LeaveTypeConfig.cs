@@ -8,18 +8,16 @@ namespace DomainLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<LeaveType> builder)
         {
-            builder.ToTable("DTbl_LeaveTypes"); // Set the table name
-            builder.HasKey(lt => lt.LeaveTypeID); // Set the primary key
-            builder.Property(lt => lt.LeaveTypeID).ValueGeneratedOnAdd().IsRequired(); // Configure the primary key property
-            builder.Property(lt => lt.Name).HasMaxLength(50).IsRequired(); // Configure other properties
-            builder.Property(lt => lt.Description).HasMaxLength(100);
-            builder.Property(lt => lt.IsLeave).IsRequired();
+            builder.ToTable("DTbl_LeaveTypes");
+            builder.HasKey(lt => lt.Id);
+            builder.Property(lt => lt.Id).ValueGeneratedOnAdd().IsRequired();
+            builder.Property(lt => lt.Name).HasMaxLength(100).IsRequired();
+            builder.Property(lt => lt.Description).HasMaxLength(200);
 
-            // Configure the relationship with LeaveApply entity
             builder.HasMany(lt => lt.LeaveApply)
-                .WithOne(la => la.LeaveType) // LeaveApply has one LeaveType
-                .HasForeignKey(la => la.LeaveTypeID) // Specify the foreign key property in LeaveApply
-                .OnDelete(DeleteBehavior.Cascade); // Configure the delete behavior
+                .WithOne(la => la.LeaveType)
+                .HasForeignKey(la => la.LeaveTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using DomainLayer.AcessLayer;
+using DomainLayer.Interface.IService;
 using LeaveManagement.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PresentationLayer.ViewModels;
@@ -15,96 +15,35 @@ namespace LeaveManagement.Controllers
     [ApiController]
     public class LeaveTypeController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public LeaveTypeController(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ILeaveTypeService _leaveType;
+        public LeaveTypeController(ILeaveTypeService leaveType)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+           _leaveType = leaveType;
         }
         [HttpGet]
         public async Task<IActionResult> LeaveTypeList()
         {
-            try
-            {
-                IQueryable<LeaveType> modelQuery = _unitOfWork.Context.LeaveType;
-                IQueryable<LeaveTypeViewModel> vmQyery = _mapper.ProjectTo<LeaveTypeViewModel>(modelQuery);
-                List<LeaveTypeViewModel> list = await vmQyery.ToListAsync();
-                return Ok(list);
+            var typeList = _leaveType.LeaveTypeList();
+            return Ok(typeList);
+        }
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $" error has occured in server side: {ex.Message}");
-            }
-        }
-        [HttpGet("{id}")]
-        public IActionResult LeaveId(int id)
-        {
-            try
-            {
-                var employee = _unitOfWork.Context.LeaveType.Find(id);
-                return Ok(employee);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"error has occured in server side:{ex.Message}");
-            }
-        }
         [HttpPost]
         public IActionResult CreateLeaveType(LeaveTypeViewModel model)
         {
-            try
-            {
-                var create = _mapper.Map<LeaveType>(model);
-                _unitOfWork.Context.Add(create);
-                _unitOfWork.Context.SaveChanges();
-                return Ok(create);
-
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"there is error in server side:{e.Message}");
-            }
+            var typeCreate = _leaveType.CreateLeaveType(model); 
+            return Ok(typeCreate);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateLeaveType(LeaveTypeViewModel model, int id)
         {
-            try
-            {
-                var update = _unitOfWork.Context.LeaveType.FirstOrDefault(x => x.LeaveTypeID == id);
-                if (update == null)
-                {
-                    return NotFound($"Leave type with ID {id} not found.");
-                }
-                _mapper.Map(model, update);
-                await _unitOfWork.Context.SaveChangesAsync();
-                return Ok(update);
-
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"server error:{e.Message}");
-            }
+           var updateType = _leaveType.UpdateLeaveType(model, id);
+            return Ok(updateType);  
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteLeaveType(int id)
         {
-            try
-            {
-                var delete = _unitOfWork.Context.LeaveType.FirstOrDefault(x => x.LeaveTypeID == id);
-                if(delete==null)
-                {
-                    return NotFound($"type id {id} not found.");
-                }
-                delete.IsLeave = true;
-                _unitOfWork.Context.SaveChanges();
-                return Ok(delete);  
-            }
-            catch(Exception e)
-            {
-                return StatusCode(500,$"server error :{e.Message}");
-            }
+            var deleteType = _leaveType.DeleteLeaveType(id);    
+            return Ok(deleteType);
         }
 
     }

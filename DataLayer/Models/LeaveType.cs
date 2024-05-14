@@ -1,13 +1,15 @@
-﻿namespace LeaveManagement.Models
+﻿using DomainLayer.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace LeaveManagement.Models
 {
     public class LeaveType
     {
-        public int LeaveTypeID { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
-        public bool IsLeave {  get; set; }  
-
+        public bool IsLeave { get; set; }
         public ICollection<LeaveApply> LeaveApply { get; set; }
 
 

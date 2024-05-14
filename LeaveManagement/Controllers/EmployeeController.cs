@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using DomainLayer.AcessLayer;
+using DomainLayer.Interface.IService;
 using LeaveManagement.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PresentationLayer.VIewModels;
@@ -16,101 +16,37 @@ namespace LeaveManagement.Controllers
 
     public class EmployeeController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public EmployeeController(IUnitOfWork dbContext, IMapper mapper)
+        private readonly IEmployeeService _service ;
+
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _unitOfWork = dbContext;
-            _mapper = mapper;
+            _service = employeeService;
+           
         }
         [HttpGet]
         public async Task<IActionResult> EmployeeList()
         {
-            try
-            {
-
-                IQueryable<Employee> modelQuery = _unitOfWork.Context.Employee.Where(emp=>emp.Status != DomainLayer.Models.Status.Active);
-                IQueryable<EmployeeViewModel> vmQuery = _mapper.ProjectTo<EmployeeViewModel>(modelQuery);
-                List<EmployeeViewModel> list = await vmQuery.ToListAsync();
-
-                return Ok(list); // Assuming you want to return the list of employees
-            }
-            catch (Exception ex)
-            {
-                // Log the exception somewhere
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
+           var employee = _service.EmployeeList();
+            return Ok(employee);
         }
-        [HttpGet("{id}")]
-        public IActionResult EmployeeID(int id)
-        {
-            try
-            {
-                var employee = _unitOfWork.Context.Employee.Find(id);
-                return Ok(employee);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occured:{ex.Message}");
-            }
-
-        }
+       
         [HttpPost]
         public IActionResult CreateEmployee(EmployeeViewModel employee)
         {
-            try
-            {
-                var create = _mapper.Map<Employee>(employee);
-                create.JoinedDate = DateTime.Now;
-                _unitOfWork.Context.Add(create);
-                _unitOfWork.Context.SaveChanges();
-                return Ok(create);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occured:{ex.Message}");
-            }
+            var employe = _service.CreateEmployee(employee);
+            return Ok(employee);
         }
         [HttpPut("{id}")]
         public IActionResult UpdateEmployee(EmployeeViewModel employee, int id)
         {
-            var existingEmployee = _unitOfWork.Context.Employee.FirstOrDefault(x => x.EmployeeID == id);
-            if (existingEmployee == null)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, "no employee found");
-            }
-            try
-            {
-                _mapper.Map(employee, existingEmployee);
-                _unitOfWork.Context.SaveChanges();
-                return Ok(existingEmployee);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occured:{ex.Message}");
-            }
+           var employes = _service.UpdateEmployee(employee, id);
+            return Ok(employee);
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteEmployee(int id)
         {
-            var existingEmployee = _unitOfWork.Context.Employee.FirstOrDefault(x => x.EmployeeID == id);
-            if (existingEmployee == null)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, "no employee found");
-
-            }
-            try
-            {
-                existingEmployee.Status= DomainLayer.Models.Status.InActive;
-                _unitOfWork.Context.SaveChanges();
-                return Ok(existingEmployee);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, $"An error occured:{ex.Message}");
-
-            }
+            var delete = _service.DeleteEmployee(id);
+            return Ok(delete);
         }
 
 

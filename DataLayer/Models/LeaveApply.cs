@@ -1,16 +1,14 @@
-﻿using DomainLayer.Models;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LeaveManagement.Models;
 
-namespace LeaveManagement.Models
+namespace DomainLayer.Models
 {
     public class LeaveApply
     {
-        public int LeaveApplyID { get; set; }
-        public int EmployeeID { get; set; }
-        public int LeaveTypeID { get; set; }
-
-        [ForeignKey("LeaveBalanceID")]
-        public int LeaveBalanceID { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         public bool LeaveApplyEnabled { get; set; }
 
@@ -18,13 +16,16 @@ namespace LeaveManagement.Models
 
         public DateTime AppliedToDate { get; set; }
 
-        public Position Position { get; set; }
-
+        [ForeignKey(nameof(LeaveBalance))]
+        public int LeaveBalanceId { get; set; }
         public LeaveBalance LeaveBalance { get; set; }
 
+        [ForeignKey(nameof(Employee))]
+        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
+        [ForeignKey(nameof(LeaveType))]
+        public int LeaveTypeId { get; set; }
         public LeaveType LeaveType { get; set; }
-
     }
 }

@@ -1,43 +1,47 @@
 
+using BusinessLayer.Middleware;
+using BusinessLayer.Repositories;
 using DomainLayer.AcessLayer;
 using DomainLayer.Data;
+using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.UnitOfWork;
 using LeaveManagement.AutoMapperProfile;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Db configuration
 builder.Services.AddDbContext<LeaveDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("LeaveManagement"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-//cookie ko ploicy configure haneko 
-builder.Services.Configure<CookiePolicyOptions>(options =>
+//autghentication ko ploicy configure haneko 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options=>
 {
-    // cross side validation jasgtei ho attack rokna 
-    options.CheckConsentNeeded = context => true;
-    options.MinimumSameSitePolicy = SameSiteMode.None;
-});
-//cookie configure haneko 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    options.SlidingExpiration = true;
-});
-// Add services to the container.
-//yyo chai authentication configure garne save garna claimidentity lai ani login ra logout garne path haru ho 
-builder.Services.AddAuthentication(
-    CookieAuthenticationDefaults.AuthenticationScheme
-).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-    options =>
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.LoginPath = "/Account/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-        options.AccessDeniedPath = "/";
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]))
+
+    };
+});
+//repositories add
+builder.Services.AddScoped<ICalanderRepo, CalanderRepository>();
+builder.Services.AddScoped<IEmployeeRepo, EmployeeReposotory>();
+builder.Services.AddScoped<ILeaveApplyRepo, LeaveApplyRepository>();
+builder.Services.AddScoped<ILeaveBalanceRepo, LeaveBalanceRepository>();
+builder.Services.AddScoped<ILeaveTypeRepo, LeaveTypeRepository>();
+builder.Services.AddScoped<ILoginRepo, LoginRepository>();
+builder.Services.AddScoped<IRegisterRepo, RegisterRepository>();
+builder.Services.AddSingleton<Authentication>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();

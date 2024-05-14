@@ -1,12 +1,13 @@
 ﻿using DomainLayer.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace LeaveManagement.Models
 {
     public class Employee
     {
-        public int EmployeeID { get; set; }
-        public string EmployeeName { get; set; }
-        public string ContactDetails { get; set; }
+        [Key]
+        public int Id { get; set; }
+      
         public Position Position { get; set; }
 
         public DateTime DateOfBirth { get; set; }
@@ -18,8 +19,8 @@ namespace LeaveManagement.Models
         public DateTime? LeftDate { get; set; }
 
         public ICollection<LeaveBalance> LeaveBalances { get; set; }
-        public ICollection<LeaveApply> LeaveApply { get; set; }
-        
+        public ICollection<LeaveApply> LeaveApply { get; set; } // Change this line to ICollection<LeaveApply>
+        public ICollection<User> Users { get; set; }   
 
     }
    

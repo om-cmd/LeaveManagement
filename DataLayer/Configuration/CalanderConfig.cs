@@ -19,12 +19,12 @@ namespace DomainLayer.Configuration
 
             builder.HasOne(x => x.User)
                    .WithMany()
-                   .HasForeignKey(x => x.UserID)
+                   .HasForeignKey(x => x.UserId)
                    .IsRequired(false);
 
             builder.HasOne(x => x.Employee)
                 .WithMany()
-                .HasForeignKey(x => x.EmployeeID)
+                .HasForeignKey(x => x.EmployeeId)
                 .IsRequired(false);
         }
     }

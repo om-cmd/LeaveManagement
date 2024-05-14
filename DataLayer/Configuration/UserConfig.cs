@@ -8,9 +8,9 @@ namespace DomainLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("DTbl_Users"); // Set the table name
-            builder.HasKey(u => u.UserID); // Set the primary key
-            builder.Property(u => u.UserID).ValueGeneratedOnAdd().IsRequired(); // Configure the primary key property
+            builder.ToTable("DTbl_User"); // Set the table name
+            builder.HasKey(u => u.Id); // Set the primary key
+            builder.Property(u => u.Id).ValueGeneratedOnAdd().IsRequired(); // Configure the primary key property
             builder.Property(u => u.UserName).HasMaxLength(50).IsRequired(); // Configure other properties
             builder.Property(u => u.Password).HasMaxLength(50).IsRequired();
             builder.Property(u => u.Email).HasMaxLength(100).IsRequired();
@@ -18,7 +18,12 @@ namespace DomainLayer.Configuration
             builder.Property(u => u.Address).HasMaxLength(200);
             builder.Property(u => u.Gender).HasMaxLength(10);
             builder.Property(u => u.DateCreated).IsRequired();
-            builder.Property(u => u.DateRemoved);
+            builder.Property(u => u.DateRemoved).IsRequired();
+
+            builder.HasOne(u => u.Employee) 
+                .WithMany(e => e.Users) 
+                .HasForeignKey(u => u.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }
