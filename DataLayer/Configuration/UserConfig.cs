@@ -18,7 +18,6 @@ namespace DomainLayer.Configuration
             builder.Property(u => u.Address).HasMaxLength(200);
             builder.Property(u => u.Gender).HasMaxLength(10);
             builder.Property(u => u.DateCreated).IsRequired();
-            builder.Property(u => u.DateRemoved).IsRequired();
 
            
         }

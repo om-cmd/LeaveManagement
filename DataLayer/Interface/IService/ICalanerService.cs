@@ -6,7 +6,7 @@ namespace DomainLayer.Interface.IService
     public interface ICalanerService
     {
         CalanderViewModel GetHoliday(int id);
-        ICollection<CalanderViewModel> CalanderList(DateTime startDate, DateTime endDate);
+        ICollection<CalanderViewModel> CalanderList();
         Calander AddHoliday(CalanderViewModel Holiday);
 
         CalanderViewModel RemoveHoliday(int id);

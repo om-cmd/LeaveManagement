@@ -26,7 +26,7 @@ namespace BusinessLayer.Repositories
                 }
 
                 var user = _mapper.Map<User>(register);
-
+                user.DateCreated = DateTime.Now;
                 // Additional logic for user creation, such as password hashing, 
 
                 _unitOfWork.Context.Users.Add(user);

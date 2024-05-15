@@ -15,11 +15,7 @@ namespace LeaveManagement.Models
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Gender { get; set; }
-
-
         public DateTime DateCreated { get; set; }
-
-        public DateTime DateRemoved { get; set; }
 
 
     }

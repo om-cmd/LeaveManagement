@@ -24,10 +24,10 @@ namespace BusinessLayer.Repositories
             return holiday;
         }
 
-        public ICollection<CalanderViewModel> CalanderList(DateTime startDate, DateTime endDate)
+        public ICollection<CalanderViewModel> CalanderList()
         {
             var holidays = _unitOfWork.Context.HolidayCalanders
-               .Where(h => h.Date >= startDate && h.Date <= endDate)
+               .Where(h=>h.IsPublicHoliday==true)
                .ToList();
 
             return _mapper.Map<List<CalanderViewModel>>(holidays);

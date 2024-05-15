@@ -22,9 +22,9 @@ namespace LeaveManagement.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult CalanderList(DateTime startDate, DateTime endDate)
+        public IActionResult CalanderList()
         {
-           var list = _calanerService.CalanderList(startDate, endDate);
+           var list = _calanerService.CalanderList();
             return Ok(list);
         }
         [HttpGet("{id}")]

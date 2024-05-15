@@ -18,9 +18,9 @@ namespace BusinessLayer.Services
 
         }
 
-        public ICollection<CalanderViewModel> CalanderList(DateTime startDate, DateTime endDate)
+        public ICollection<CalanderViewModel> CalanderList()
         {
-            return _calanderRepo.CalanderList(startDate, endDate);
+            return _calanderRepo.CalanderList();
         }
 
         public CalanderViewModel GetHoliday(int id)
