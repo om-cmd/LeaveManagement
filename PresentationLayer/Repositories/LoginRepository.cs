@@ -4,9 +4,11 @@ using DomainLayer.AcessLayer;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.ViewModels;
 using LeaveManagement.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +27,7 @@ namespace BusinessLayer.Repositories
             _unitOfWork = unitOfWork;
             _middleware = middleware;
         }
-        public User Login(LoginViewModel login)
+        public JWTTokenViewModels Login(LoginViewModel login)
         {
             try
             {
@@ -33,16 +35,18 @@ namespace BusinessLayer.Repositories
 
                 if (authenticatedUser == null || authenticatedUser.Password != login.Password)
                 {
-                    return null; // Return null if user not found or password is incorrect
+                    throw new Exception("not matched"); 
                 }
 
                 var user = _mapper.Map<User>(authenticatedUser);
-                var (refreshToken, accessToken) = _middleware.ProvideBothToken(user);
+                var token = _middleware.ProvideBothToken(user);
 
-                // Optionally, you can return the access token and refresh token here
-                // return new { AccessToken = accessToken, RefreshToken = refreshToken };
-
-                return user;
+                var model = new JWTTokenViewModels
+                {
+                    AcessTokens = token.AcessToken.ToString(),
+                    RefreshTokens = token.RefreshToken.ToString(),
+                };
+                return model;
             }
             catch (Exception ex)
             {

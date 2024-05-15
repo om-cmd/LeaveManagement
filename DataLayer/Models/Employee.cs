@@ -7,7 +7,12 @@ namespace LeaveManagement.Models
     {
         [Key]
         public int Id { get; set; }
-      
+        public string EmployeeName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string Gender { get; set; }
+
         public Position Position { get; set; }
 
         public DateTime DateOfBirth { get; set; }
@@ -19,8 +24,7 @@ namespace LeaveManagement.Models
         public DateTime? LeftDate { get; set; }
 
         public ICollection<LeaveBalance> LeaveBalances { get; set; }
-        public ICollection<LeaveApply> LeaveApply { get; set; } // Change this line to ICollection<LeaveApply>
-        public ICollection<User> Users { get; set; }   
+        public ICollection<LeaveApply> LeaveApply { get; set; } 
 
     }
    

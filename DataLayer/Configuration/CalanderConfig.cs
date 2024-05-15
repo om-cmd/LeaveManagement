@@ -16,16 +16,7 @@ namespace DomainLayer.Configuration
             builder.Property(x => x.IsPublicHoliday).IsRequired();
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.Region).IsRequired();
-
-            builder.HasOne(x => x.User)
-                   .WithMany()
-                   .HasForeignKey(x => x.UserId)
-                   .IsRequired(false);
-
-            builder.HasOne(x => x.Employee)
-                .WithMany()
-                .HasForeignKey(x => x.EmployeeId)
-                .IsRequired(false);
+         
         }
     }
 }

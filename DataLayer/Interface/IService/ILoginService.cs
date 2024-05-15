@@ -5,6 +5,6 @@ namespace DomainLayer.Interface.IService
 {
     public interface ILoginService
     {
-        User Login(LoginViewModel loginViewModel);
+        JWTTokenViewModels Login(LoginViewModel loginViewModel);
     }
 }

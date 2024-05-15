@@ -5,7 +5,7 @@ namespace DomainLayer.IRepoInterface.IRepo
 {
     public interface ILoginRepo
     {
-        User Login(LoginViewModel login);
+        JWTTokenViewModels Login(LoginViewModel login);
 
     }
 }

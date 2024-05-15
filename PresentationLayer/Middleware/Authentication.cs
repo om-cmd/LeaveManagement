@@ -32,26 +32,35 @@
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                     new Claim(ClaimTypes.Name,user.UserName) 
                 };
-                var token = new JwtSecurityToken
-                    (
-                    _configuration["jwt:Issuer"],
-                    _configuration["Jwt:Audience"],
-                    claims,
-                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:AcessTokenExpiresInMinutes"])),
-                    signingCredentials: credintials);
-                return new JwtSecurityTokenHandler().WriteToken(token);
-
+            if (!int.TryParse(_configuration["Jwt:AccessTokenExpiresInMinutes"], out int accessTokenExpiresInMinutes))
+            {
+                throw new ArgumentException("Invalid access token expiration time in configuration.");
             }
+
+            var token = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                claims,
+                expires: DateTime.Now.AddMinutes(accessTokenExpiresInMinutes),
+                signingCredentials: credintials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
             private string GenerateRefreshToken()
             {
-                var refreshTokenTime = DateTime.Now.AddDays(Convert.ToDouble(_configuration["Jwt:RefreshTokenExpiresInDays"]));
-                var randomNumber = new byte[32];
-                using(var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
-                {
-                    rng.GetBytes(randomNumber);
-                    return Convert.ToBase64String(randomNumber);    
-                }
+            if (!int.TryParse(_configuration["Jwt:RefreshTokenExpiresInDays"], out int refreshTokenExpiresInDays))
+            {
+                throw new ArgumentException("Invalid refresh token expiration time in configuration.");
             }
+
+            var refreshTokenTime = DateTime.Now.AddDays(refreshTokenExpiresInDays);
+            var randomNumber = new byte[32];
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
          
         }
     }

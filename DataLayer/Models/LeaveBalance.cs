@@ -18,7 +18,10 @@ namespace LeaveManagement.Models
         [ForeignKey(nameof(Employee))]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
-        public ICollection<LeaveApply> Leaves { get; set; }
+
+        [ForeignKey(nameof (LeaveBalance))]
+        public int LeaveApplyId { get; set; }
+        public LeaveApply LeaveApply { get; set; }
 
     }
 }

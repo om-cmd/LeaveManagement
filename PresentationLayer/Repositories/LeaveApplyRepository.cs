@@ -20,6 +20,15 @@ namespace BusinessLayer.Repositories
         }
         public LeaveApply CreateLeaveApplication(LeaveApplyViewModel model)
         {
+            Employee employee = _unitOfWork.Context.Employee.Find(model.EmployeeID);
+            if (employee == null)
+            {
+              
+                throw new ArgumentException("Employee not found");
+            }
+            //model.Position = employee.Position.ToString();
+
+
             var leaveApplication = _mapper.Map<LeaveApply>(model);
             _unitOfWork.Context.LeaveApply.Add(leaveApplication);
             _unitOfWork.Context.SaveChanges();

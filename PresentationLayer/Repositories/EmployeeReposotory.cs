@@ -38,14 +38,14 @@ namespace BusinessLayer.Repositories
             {
                 return null;
             }
-            existingEmployee.Status = DomainLayer.Models.Status.InActive;
+            existingEmployee.Status = DomainLayer.Models.Status.Active;
             _unitOfWork.Context.SaveChanges();
             return _mapper.Map<EmployeeViewModel>(existingEmployee);
         }
 
         public ICollection<EmployeeViewModel> EmployeeList()
         {
-            var employees = _unitOfWork.Context.Employee.Where(emp => emp.Status != DomainLayer.Models.Status.Active).ToList();
+            var employees = _unitOfWork.Context.Employee.Where(emp => emp.Status != DomainLayer.Models.Status.InActive).ToList();
             return _mapper.Map<List<EmployeeViewModel>>(employees);
         }
 

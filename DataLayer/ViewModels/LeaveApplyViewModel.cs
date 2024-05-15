@@ -1,4 +1,5 @@
 ﻿using DomainLayer.Models;
+using LeaveManagement.Models;
 
 namespace PresentationLayer.ViewModels
 {
@@ -6,16 +7,12 @@ namespace PresentationLayer.ViewModels
     {
         public int EmployeeID { get; set; }
         public int LeaveTypeID { get; set; }
-        public int LeavebalanceID { get; set; }
         public bool LeaveApplyEnabled { get; set; }
-        public int LeaveDaysApplied { get; set; }
+        public string LeaveApplyDescription { get; set; }
 
         public DateTime AppliedFromDate { get; set; }
 
         public DateTime AppliedToDate { get; set; }
-
-        public Position Position { get; set; }
-
 
 
     }

@@ -18,7 +18,7 @@ namespace BusinessLayer.Services
             _login = login;
         }
 
-        public User Login(LoginViewModel loginViewModel)
+        public JWTTokenViewModels Login(LoginViewModel loginViewModel)
         {
             return _login.Login(loginViewModel);
         }

@@ -11,6 +11,7 @@ namespace DomainLayer.Configuration
             builder.ToTable("DTbl_LeaveApply");
             builder.HasKey(la => la.Id);
             builder.Property(la => la.Id).ValueGeneratedOnAdd().IsRequired();
+            builder.Property(la => la.LeaveApplyDescription).IsRequired();
             builder.Property(la => la.LeaveApplyEnabled).IsRequired();
             builder.Property(la => la.AppliedFromDate).IsRequired();
             builder.Property(la => la.AppliedToDate).IsRequired();
@@ -23,16 +24,18 @@ namespace DomainLayer.Configuration
 
             builder.HasOne(la => la.LeaveType)
                 .WithMany(lt => lt.LeaveApply)
-                .HasForeignKey(la => la.LeaveTypeId) 
+                .HasForeignKey(la => la.LeaveTypeId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_LeaveApplies_LeaveTypes");  
+                .HasConstraintName("FK_LeaveApplies_LeaveTypes");
 
-            builder.HasOne(la => la.LeaveBalance)
-                .WithMany()
-                .HasForeignKey(la => la.LeaveBalanceId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.LeaveBalances)
+                    .WithOne(lb => lb.LeaveApply)
+                    .HasForeignKey(lb => lb.LeaveApplyId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_LeaveApplies_LeaveBalance");
+
+
         }
     }
 }

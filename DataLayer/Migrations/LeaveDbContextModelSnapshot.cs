@@ -39,11 +39,12 @@ namespace DomainLayer.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LeaveApplyDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LeaveApplyEnabled")
                         .HasColumnType("bit");
-
-                    b.Property<int>("LeaveBalanceId")
-                        .HasColumnType("int");
 
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
@@ -51,8 +52,6 @@ namespace DomainLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("LeaveBalanceId");
 
                     b.HasIndex("LeaveTypeId");
 
@@ -74,9 +73,6 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsPublicHoliday")
                         .HasColumnType("bit");
 
@@ -89,14 +85,7 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("HolidayCalendarID");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("DTbl_Calander", (string)null);
                 });
@@ -109,14 +98,34 @@ namespace DomainLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("JoinedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LeftDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -146,6 +155,9 @@ namespace DomainLayer.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("LeaveApplyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("LeaveDaysApplied")
                         .HasColumnType("int");
 
@@ -162,6 +174,8 @@ namespace DomainLayer.Migrations
 
                     b.HasIndex("EmployeeId");
 
+                    b.HasIndex("LeaveApplyId");
+
                     b.ToTable("DTbl_LeaveBalances", (string)null);
                 });
 
@@ -172,11 +186,6 @@ namespace DomainLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsLeave")
                         .HasColumnType("bit");
@@ -215,9 +224,6 @@ namespace DomainLayer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -240,8 +246,6 @@ namespace DomainLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.ToTable("DTbl_User", (string)null);
                 });
 
@@ -254,12 +258,6 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_LeaveApplies_Employees");
 
-                    b.HasOne("LeaveManagement.Models.LeaveBalance", "LeaveBalance")
-                        .WithMany("Leaves")
-                        .HasForeignKey("LeaveBalanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("LeaveManagement.Models.LeaveType", "LeaveType")
                         .WithMany("LeaveApply")
                         .HasForeignKey("LeaveTypeId")
@@ -269,24 +267,7 @@ namespace DomainLayer.Migrations
 
                     b.Navigation("Employee");
 
-                    b.Navigation("LeaveBalance");
-
                     b.Navigation("LeaveType");
-                });
-
-            modelBuilder.Entity("LeaveManagement.Models.Calander", b =>
-                {
-                    b.HasOne("LeaveManagement.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId");
-
-                    b.HasOne("LeaveManagement.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LeaveManagement.Models.LeaveBalance", b =>
@@ -297,18 +278,21 @@ namespace DomainLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DomainLayer.Models.LeaveApply", "LeaveApply")
+                        .WithMany("LeaveBalances")
+                        .HasForeignKey("LeaveApplyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_LeaveApplies_LeaveBalance");
+
                     b.Navigation("Employee");
+
+                    b.Navigation("LeaveApply");
                 });
 
-            modelBuilder.Entity("LeaveManagement.Models.User", b =>
+            modelBuilder.Entity("DomainLayer.Models.LeaveApply", b =>
                 {
-                    b.HasOne("LeaveManagement.Models.Employee", "Employee")
-                        .WithMany("Users")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
+                    b.Navigation("LeaveBalances");
                 });
 
             modelBuilder.Entity("LeaveManagement.Models.Employee", b =>
@@ -316,13 +300,6 @@ namespace DomainLayer.Migrations
                     b.Navigation("LeaveApply");
 
                     b.Navigation("LeaveBalances");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("LeaveManagement.Models.LeaveBalance", b =>
-                {
-                    b.Navigation("Leaves");
                 });
 
             modelBuilder.Entity("LeaveManagement.Models.LeaveType", b =>

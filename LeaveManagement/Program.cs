@@ -1,8 +1,10 @@
 
 using BusinessLayer.Middleware;
 using BusinessLayer.Repositories;
+using BusinessLayer.Services;
 using DomainLayer.AcessLayer;
 using DomainLayer.Data;
+using DomainLayer.Interface.IService;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.UnitOfWork;
 using LeaveManagement.AutoMapperProfile;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LeaveDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-//autghentication ko ploicy configure haneko 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options=>
+//autghentication ko ploicy configure haneko  authenticaton
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -40,9 +43,22 @@ builder.Services.AddScoped<ILeaveBalanceRepo, LeaveBalanceRepository>();
 builder.Services.AddScoped<ILeaveTypeRepo, LeaveTypeRepository>();
 builder.Services.AddScoped<ILoginRepo, LoginRepository>();
 builder.Services.AddScoped<IRegisterRepo, RegisterRepository>();
+
+//services add
+builder.Services.AddScoped<ICalanerService, CalanderService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ILeaveApplyService, LeaveApplyService>();
+builder.Services.AddScoped<ILeaveBalanceService, LeaveBalanceService>();
+builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IRegisterService, RegisterService>();
+
 builder.Services.AddSingleton<Authentication>();
 
-builder.Services.AddControllers();
+//refrencehandler
+builder.Services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();
 //auto mapper

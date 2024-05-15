@@ -9,8 +9,6 @@ namespace PresentationLayer.ViewModels
     public class LeaveTypeViewModel
     {
         public string Name { get; set; }
-        public string Description { get; set; }
         
-        public bool Isleave {  get; set; }
     }
 }

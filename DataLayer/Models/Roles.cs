@@ -1,9 +1,11 @@
-﻿namespace DomainLayer.Models
+﻿using LeaveManagement.Models;
+
+namespace DomainLayer.Models
 {
     public enum Roles
     {
-        Admin,
-        User
+     Admin,
+     Employee
     }
     public enum Position
     {
