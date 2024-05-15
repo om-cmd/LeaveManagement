@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainLayer.Migrations
 {
     [DbContext(typeof(LeaveDbContext))]
-    [Migration("20240514111856_INIT")]
+    [Migration("20240515063821_INIT")]
     partial class INIT
     {
         /// <inheritdoc />
