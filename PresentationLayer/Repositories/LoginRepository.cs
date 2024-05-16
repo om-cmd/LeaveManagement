@@ -4,13 +4,6 @@ using DomainLayer.AcessLayer;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.ViewModels;
 using LeaveManagement.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Repositories
 {
@@ -29,8 +22,7 @@ namespace BusinessLayer.Repositories
         }
         public JWTTokenViewModels Login(LoginViewModel login)
         {
-            try
-            {
+           
                 var authenticatedUser = _unitOfWork.Context.Users.FirstOrDefault(x => x.UserName == login.UserName);
 
                 if (authenticatedUser == null || authenticatedUser.Password != login.Password)
@@ -47,11 +39,7 @@ namespace BusinessLayer.Repositories
                     RefreshTokens = token.RefreshToken.ToString(),
                 };
                 return model;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred during login", ex);
-            }
+          
         }
     }
 }

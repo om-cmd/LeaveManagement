@@ -1,4 +1,5 @@
 
+using BusinessLayer.CustomException_handler;
 using BusinessLayer.Middleware;
 using BusinessLayer.Repositories;
 using BusinessLayer.Services;
@@ -13,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,10 +58,11 @@ builder.Services.AddScoped<IRegisterService, RegisterService>();
 
 builder.Services.AddSingleton<Authentication>();
 
+
 //refrencehandler
 builder.Services.AddControllers().AddJsonOptions(x =>
    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-//builder.Services.AddControllers();
+//builder.Services.AddControllers(); yo chai suru ma refrence na liyera double include ko remove garya 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSwaggerGen();
 //auto mapper
@@ -80,6 +84,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+//global exception handler 
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 

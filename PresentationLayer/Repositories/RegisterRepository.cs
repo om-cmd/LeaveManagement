@@ -17,27 +17,23 @@ namespace BusinessLayer.Repositories
         }
         public User Register(RegisterViewModel register)
         {
-            try
+
+
+            var existingUser = _unitOfWork.Context.Users.FirstOrDefault(u => u.Email == register.Email);
+            if (existingUser != null)
             {
-                var existingUser = _unitOfWork.Context.Users.FirstOrDefault(u => u.Email == register.Email);
-                if (existingUser != null)
-                {
-                    throw new Exception("user already exist");
-                }
-
-                var user = _mapper.Map<User>(register);
-                user.DateCreated = DateTime.Now;
-                // Additional logic for user creation, such as password hashing, 
-
-                _unitOfWork.Context.Users.Add(user);
-                _unitOfWork.Context.SaveChanges();
-
-                return user;
+                throw new Exception("user already exist");
             }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred during registration", ex);
-            }
+
+            var user = _mapper.Map<User>(register);
+            user.DateCreated = DateTime.Now;
+            // Additional logic for user creation, such as password hashing, 
+
+            _unitOfWork.Context.Users.Add(user);
+            _unitOfWork.Context.SaveChanges();
+
+            return user;
+
         }
     }
 }
