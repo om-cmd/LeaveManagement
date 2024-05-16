@@ -13,6 +13,16 @@ namespace BusinessLayer.AttributeValidations
                 return new ValidationResult("Phone number cannot be null or empty.");
 
             }
+            int minLength = 10; 
+            int maxLength = 12;
+            if (phone.Length > maxLength)
+            {
+                return new ValidationResult("it should not exceed the length");
+            }
+            if (phone.Length < minLength)
+            {
+                return new ValidationResult("phone shou;d be longer than min length");
+            }
             var prefix = phone.Substring(0, 2);
             if (prefix != "98" && prefix != "97" && prefix != "96")
             {
@@ -49,6 +59,7 @@ namespace BusinessLayer.AttributeValidations
                 return false;
             }
         }
+      
     }
     public class ValidatePassword : ValidationAttribute
     {

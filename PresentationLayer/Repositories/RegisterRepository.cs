@@ -15,7 +15,7 @@ namespace BusinessLayer.Repositories
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public User Register(RegisterViewModel register)
+        public Person Register(RegisterViewModel register)
         {
 
 
@@ -25,14 +25,18 @@ namespace BusinessLayer.Repositories
                 throw new Exception("user already exist");
             }
 
-            var user = _mapper.Map<User>(register);
-            user.DateCreated = DateTime.Now;
+            var person = _mapper.Map<Person>(register);
+            person.JoinedDate = DateTime.Now;
             // Additional logic for user creation, such as password hashing, 
 
-            _unitOfWork.Context.Users.Add(user);
+            //_unitOfWork.Context.People.Add(person);
+            Employee employee = _mapper.Map<Employee>(register);
+            User users = _mapper.Map<User>(register);
+            _unitOfWork.Context.Employee.Add(employee);
+            _unitOfWork.Context.Users.Add(users);
             _unitOfWork.Context.SaveChanges();
 
-            return user;
+            return person;
 
         }
     }

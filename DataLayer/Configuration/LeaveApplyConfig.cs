@@ -16,24 +16,22 @@ namespace DomainLayer.Configuration
             builder.Property(la => la.AppliedFromDate).IsRequired();
             builder.Property(la => la.AppliedToDate).IsRequired();
 
-            builder.HasOne(la => la.Employee)
-                .WithMany(e => e.LeaveApply)
-                .HasForeignKey(la => la.EmployeeId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_LeaveApplies_Employees");
+            //builder.HasOne(la => la.Employee)
+            //     .WithMany() 
+            //     .HasForeignKey(la => la.EmployeeId)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.Restrict)
+            //     .HasConstraintName("FK_LeaveApplies_Person");
 
-            builder.HasOne(la => la.LeaveType)
-                .WithMany(lt => lt.LeaveApply)
-                .HasForeignKey(la => la.LeaveTypeId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_LeaveApplies_LeaveTypes");
 
-            builder.HasMany(e => e.LeaveBalances)
-                    .WithOne(lb => lb.LeaveApply)
-                    .HasForeignKey(lb => lb.LeaveApplyId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_LeaveApplies_LeaveBalance");
+            //builder.HasOne(la => la.LeaveType)
+            //    .WithMany(lt => lt.LeaveApply)
+            //    .HasForeignKey(la => la.LeaveTypeId)
+            //    .IsRequired()
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("FK_LeaveApplies_LeaveTypes");
+
+         
 
 
         }

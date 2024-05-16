@@ -18,17 +18,16 @@ namespace DomainLayer.Configuration
             builder.Property(lb => lb.AllocatedThisYear).IsRequired();
             builder.Property(lb => lb.UsedThisYear).IsRequired();
 
-            builder.HasOne(lb => lb.Employee) 
-                .WithMany(e => e.LeaveBalances) 
-                .HasForeignKey(lb => lb.EmployeeId) 
-                .OnDelete(DeleteBehavior.Cascade); 
+            //builder.HasOne(lb => lb.Person)
+            //      .WithMany() 
+            //      .HasForeignKey(lb => lb.PersonId)
+            //      .IsRequired();
 
-           
 
-             builder.HasOne(la => la.LeaveApply)
-                .WithMany(e=>e.LeaveBalances)
-                .HasForeignKey(la => la.LeaveApplyId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(la => la.LeaveApply)
+               .WithMany(e => e.LeaveBalances)
+               .HasForeignKey(la => la.LeaveApplyId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace DomainLayer.IRepoInterface.IRepo
 {
     public interface IRegisterRepo
     {
-        User Register(RegisterViewModel register);
+        Person Register(RegisterViewModel register);
     }
 }

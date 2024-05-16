@@ -22,7 +22,7 @@ namespace BusinessLayer.Repositories
             Employee employee = _unitOfWork.Context.Employee.FirstOrDefault(e => e.Id == request.EmployeeID);
             if (employee == null)
             {
-                return null; // Or throw an exception indicating the employee was not found
+                return null; 
             }
 
             // Get the position of the employee
@@ -32,13 +32,13 @@ namespace BusinessLayer.Repositories
             int totalLeaveAllotted = GetTotalLeaveAllotted(position);
 
             // Retrieve the leave balance for the current year
-            LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance.FirstOrDefault(lb => lb.EmployeeId == request.EmployeeID && lb.Year == DateTime.Now.Year);
+            LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance.FirstOrDefault(lb => lb.PersonId == request.EmployeeID && lb.Year == DateTime.Now.Year);
             if (leaveBalance == null)
             {
                 // If no leave balance exists for the current year, create a new one
                 leaveBalance = new LeaveBalance
                 {
-                    EmployeeId = request.EmployeeID,
+                    PersonId = request.EmployeeID,
                     RemainingLeave = totalLeaveAllotted,
                     LastUpdated = DateTime.Now,
                     Year = DateTime.Now.Year,
@@ -65,7 +65,7 @@ namespace BusinessLayer.Repositories
         {
             // Retrieve the leave balance for the current year
             LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance
-                .Include(x => x.Employee)
+                .Include(x => x.Person)
                 .FirstOrDefault(lb => lb.Year == DateTime.Now.Year);
 
             return leaveBalance;

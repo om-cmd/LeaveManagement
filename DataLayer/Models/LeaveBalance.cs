@@ -15,11 +15,11 @@ namespace LeaveManagement.Models
         public int Year { get; set; }
         public int AllocatedThisYear { get; set; }
         public int UsedThisYear { get; set; }
-        [ForeignKey(nameof(Employee))]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        [ForeignKey(nameof(Person))]
+        public int PersonId { get; set; }
+        public Employee Person { get; set; }
 
-        [ForeignKey(nameof (LeaveBalance))]
+        [ForeignKey(nameof (LeaveApply))]
         public int LeaveApplyId { get; set; }
         public LeaveApply LeaveApply { get; set; }
 

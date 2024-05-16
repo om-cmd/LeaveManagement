@@ -5,6 +5,6 @@ namespace DomainLayer.Interface.IService
 {
     public interface IRegisterService
     {
-        User Register(RegisterViewModel register);
+        Person Register(RegisterViewModel register);
     }
 }

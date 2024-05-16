@@ -1,8 +1,7 @@
 ﻿namespace DomainLayer.ViewModels
 {
-    public class LoginViewModel
+    public class LoginViewModel : PersonBaseModel
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+      
     }
 }

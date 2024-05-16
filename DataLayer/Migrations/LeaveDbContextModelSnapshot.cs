@@ -109,10 +109,6 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmployeeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,6 +119,10 @@ namespace DomainLayer.Migrations
                     b.Property<DateTime?>("LeftDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -132,6 +132,10 @@ namespace DomainLayer.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -149,9 +153,6 @@ namespace DomainLayer.Migrations
                     b.Property<int>("AllocatedThisYear")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
 
@@ -159,6 +160,9 @@ namespace DomainLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("LeaveDaysApplied")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<int>("RemainingLeave")
@@ -172,9 +176,9 @@ namespace DomainLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.HasIndex("LeaveApplyId");
+
+                    b.HasIndex("PersonId");
 
                     b.ToTable("DTbl_LeaveBalances", (string)null);
                 });
@@ -210,36 +214,33 @@ namespace DomainLayer.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("JoinedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -251,16 +252,14 @@ namespace DomainLayer.Migrations
                     b.HasOne("LeaveManagement.Models.Employee", "Employee")
                         .WithMany("LeaveApply")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_LeaveApplies_Employees");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LeaveManagement.Models.LeaveType", "LeaveType")
                         .WithMany("LeaveApply")
                         .HasForeignKey("LeaveTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_LeaveApplies_LeaveTypes");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
 
@@ -269,22 +268,21 @@ namespace DomainLayer.Migrations
 
             modelBuilder.Entity("LeaveManagement.Models.LeaveBalance", b =>
                 {
-                    b.HasOne("LeaveManagement.Models.Employee", "Employee")
-                        .WithMany("LeaveBalances")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DomainLayer.Models.LeaveApply", "LeaveApply")
                         .WithMany("LeaveBalances")
                         .HasForeignKey("LeaveApplyId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_LeaveApplies_LeaveBalance");
+                        .IsRequired();
 
-                    b.Navigation("Employee");
+                    b.HasOne("LeaveManagement.Models.Employee", "Person")
+                        .WithMany("LeaveBalances")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LeaveApply");
+
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("DomainLayer.Models.LeaveApply", b =>

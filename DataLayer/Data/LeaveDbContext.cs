@@ -18,9 +18,12 @@ namespace DomainLayer.Data
 
         public DbSet<LeaveType> LeaveType { get; set; }
 
-        public DbSet<User> Users { get; set; }  
+        public DbSet<User> Users { get; set; }
 
-     
+
+        //public DbSet<Person> People { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder Builder)
         {
             Builder.ApplyConfiguration(new EmployeeConfig());
@@ -29,6 +32,7 @@ namespace DomainLayer.Data
             Builder.ApplyConfiguration(new LeaveApplyConfig());
             Builder.ApplyConfiguration(new LeaveBalanceConfig());
             Builder.ApplyConfiguration(new UserConfig());
+            //Builder.ApplyConfiguration(new PersonConfig());
 
             base.OnModelCreating(Builder); 
         }

@@ -13,10 +13,10 @@ namespace DomainLayer.Configuration
             builder.Property(lt => lt.Id).ValueGeneratedOnAdd().IsRequired();
             builder.Property(lt => lt.Name).HasMaxLength(100).IsRequired();
 
-            builder.HasMany(lt => lt.LeaveApply)
-                .WithOne(la => la.LeaveType)
-                .HasForeignKey(la => la.LeaveTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasMany(lt => lt.LeaveApply)
+            //    .WithOne(la => la.LeaveType)
+            //    .HasForeignKey(la => la.LeaveTypeId)
+            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BusinessLayer.Services
             _repo = repo;
         }
 
-        public User Register(RegisterViewModel register)
+        public Person Register(RegisterViewModel register)
         {
             return _repo.Register(register);
         }

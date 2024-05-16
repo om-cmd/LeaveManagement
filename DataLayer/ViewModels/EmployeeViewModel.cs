@@ -14,7 +14,6 @@ namespace PresentationLayer.VIewModels
         public string Address { get; set; }
         public string Gender { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
 
         public Position Position { get; set; }
 

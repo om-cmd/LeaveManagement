@@ -12,7 +12,6 @@ namespace BusinessLayer.Repositories
         private readonly IUnitOfWork _unitOfWork;
         private Authentication _middleware;
 
-        //private readonly BusinessLayer.Middleware.Authentication _middleware;
         private readonly IMapper _mapper;
         public LoginRepository(IUnitOfWork unitOfWork, IMapper mapper, Authentication middleware)
         {
@@ -35,7 +34,7 @@ namespace BusinessLayer.Repositories
 
                 var model = new JWTTokenViewModels
                 {
-                    AcessTokens = token.AcessToken.ToString(),
+                    AcessTokens = token.AccessToken.ToString(),
                     RefreshTokens = token.RefreshToken.ToString(),
                 };
                 return model;
