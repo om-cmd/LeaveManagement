@@ -5,6 +5,7 @@ using BusinessLayer.Repositories;
 using BusinessLayer.Services;
 using DomainLayer.AcessLayer;
 using DomainLayer.Data;
+using DomainLayer.DBSeeding;
 using DomainLayer.Interface.IService;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.UnitOfWork;
@@ -67,7 +68,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 builder.Services.AddSwaggerGen();
 //auto mapper
 builder.Services.AddAutoMapper(typeof(MapperProfile));
+//iunit of work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//dbSeed Initializer
+builder.Services.AddScoped<DbInitializer>();
 
 
 var app = builder.Build();
@@ -75,6 +79,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.DbSeed();
     app.UseSwagger();
     app.UseSwaggerUI();
 

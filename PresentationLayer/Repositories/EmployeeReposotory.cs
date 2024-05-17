@@ -33,7 +33,7 @@ namespace BusinessLayer.Repositories
             {
                 return null;
             }
-            existingEmployee.Status = DomainLayer.Models.Status.Active;
+            existingEmployee.Status = DomainLayer.Models.Status.InActive;
             existingEmployee.LeftDate = DateTime.Now;
             _unitOfWork.Context.SaveChanges();
             return _mapper.Map<EmployeeViewModel>(existingEmployee);
