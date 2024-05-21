@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DomainLayer.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace BusinessLayer.AttributeValidations
@@ -44,6 +47,11 @@ namespace BusinessLayer.AttributeValidations
             {
                 return new ValidationResult("it is not valid format");
             }
+            //if(EmailAlreadyExist(email))
+            //{
+            //    return new ValidationResult("Email is already in use.");
+
+            //}
             return ValidationResult.Success;
         }
         private bool IsValidEmail(string email)
@@ -59,6 +67,14 @@ namespace BusinessLayer.AttributeValidations
                 return false;
             }
         }
+        //private bool EmailAlreadyExist(string email)
+        //{
+        //    using  (var DbContext = new LeaveDbContext())
+        //    {
+        //        return DbContext.Users.Any(u => u.Email == email);
+
+        //    };
+        //}
       
     }
     public class ValidatePassword : ValidationAttribute

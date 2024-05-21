@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using BusinessLayer.Helper;
 using DomainLayer.AcessLayer;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.ViewModels;
 using LeaveManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.Repositories
 {
@@ -10,26 +12,27 @@ namespace BusinessLayer.Repositories
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public RegisterRepository(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public RegisterRepository(IUnitOfWork unitOfWork, IMapper mapper,IHttpContextAccessor httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
         public Person Register(RegisterViewModel register)
         {
-
-
             var existingUser = _unitOfWork.Context.Users.FirstOrDefault(u => u.Email == register.Email);
             if (existingUser != null)
             {
                 throw new Exception("user already exist");
             }
+            string HashPassword = PasswordHash.Hashing(register.Password);
 
             var person = _mapper.Map<Person>(register);
             person.JoinedDate = DateTime.Now;
-            // Additional logic for user creation, such as password hashing, 
+            person.CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
+            person.Password = HashPassword;
 
-            //_unitOfWork.Context.People.Add(person);
             Employee employee = _mapper.Map<Employee>(register);
             User users = _mapper.Map<User>(register);
             _unitOfWork.Context.Employee.Add(employee);

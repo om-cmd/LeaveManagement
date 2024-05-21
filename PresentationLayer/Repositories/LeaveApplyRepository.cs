@@ -3,11 +3,13 @@ using DomainLayer.AcessLayer;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.Models;
 using LeaveManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PresentationLayer.ViewModels;
 
 namespace BusinessLayer.Repositories
 {
+   
     public class LeaveApplyRepository : ILeaveApplyRepo
     {
         private readonly IUnitOfWork _unitOfWork;

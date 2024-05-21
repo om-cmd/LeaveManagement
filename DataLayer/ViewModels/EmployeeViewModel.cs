@@ -14,8 +14,8 @@ namespace PresentationLayer.VIewModels
         public string Address { get; set; }
         public string Gender { get; set; }
 
+        public Roles Roles { get; set; }    
 
-        public Position Position { get; set; }
 
     }
 }

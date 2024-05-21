@@ -102,6 +102,10 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -127,6 +131,9 @@ namespace DomainLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Roles")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -215,6 +222,10 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -235,6 +246,12 @@ namespace DomainLayer.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Roles")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()

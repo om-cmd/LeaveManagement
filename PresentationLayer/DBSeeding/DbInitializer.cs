@@ -1,10 +1,12 @@
-﻿using DomainLayer.Data;
+﻿using BusinessLayer.Helper;
+using DomainLayer.Data;
 using DomainLayer.Models;
 using LeaveManagement.Models;
 
 namespace DomainLayer.DBSeeding
 {
     public class DbInitializer
+       
     {
         public static void Seed(LeaveDbContext context)
         {
@@ -16,14 +18,17 @@ namespace DomainLayer.DBSeeding
             {
                 new User()
                 {
-                UserName = "Batman",
-                Password = "BruceWyane@123", 
+                    UserName = "Batman",
+                Password = PasswordHash.Hashing("BruceWyane@123"),
                 Email = "Batman@example.com",
                 Phone = "9812320579",
                 Address = "1007 Mountain Drive, Gotham",
                 Gender = Gender.Male,
                 JoinedDate = DateTime.Now,
-                DateOfBirth = new DateTime(1980, 2, 19)
+                Position=Position.HRManager,
+                DateOfBirth = new DateTime(1980, 2, 19),
+                Roles = Roles.SuperAdmin,
+                CreatedBy = "System"
                 }
             };
 
@@ -32,15 +37,18 @@ namespace DomainLayer.DBSeeding
                 new Employee()
                 {
                 UserName = "Batman",
-                Password = "BruceWyane@123",
+                Password = PasswordHash.Hashing("BruceWyane@123" ),
                 Email = "Batman@example.com",
                 Phone = "9812320579",
                 Address = "1007 Mountain Drive, Gotham",
                 Gender = Gender.Male,
                 JoinedDate = DateTime.Now,
                 DateOfBirth = new DateTime(1980, 2, 19),
-                Position = Position.Intern,
+                Position = Position.HRManager,
                 Status = Status.Active,
+                Roles = Roles.SuperAdmin,
+                CreatedBy = "System"
+
                 }
             };
             foreach (var user in users)

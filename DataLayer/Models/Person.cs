@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DomainLayer.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LeaveManagement.Models
 {
@@ -16,6 +18,9 @@ namespace LeaveManagement.Models
         public Gender Gender { get; set; }
         public DateTime JoinedDate { get; set; } = DateTime.Now;
         public DateTime DateOfBirth { get; set; }
+        public Position Position { get; set; }
+        public Roles Roles { get; set; }
+        public string CreatedBy { get; set; } 
 
     }
     public enum Gender

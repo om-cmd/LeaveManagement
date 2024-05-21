@@ -1,11 +1,14 @@
 ﻿using DomainLayer.Interface.IService;
 using DomainLayer.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveManagement.Controllers
 {
 
-
+    [Authorize(Roles ="SuperAdmin,Admin")]
+    
+    
     [Route("api/[controller]")]
     [ApiController]
     public class RegisterController : ControllerBase

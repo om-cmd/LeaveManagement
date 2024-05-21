@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using BusinessLayer.Helper;
 using BusinessLayer.Middleware;
 using DomainLayer.AcessLayer;
 using DomainLayer.IRepoInterface.IRepo;
+using DomainLayer.Models;
 using DomainLayer.ViewModels;
 using LeaveManagement.Models;
 
@@ -21,10 +23,10 @@ namespace BusinessLayer.Repositories
         }
         public JWTTokenViewModels Login(LoginViewModel login)
         {
-           
+           string HashPassword = PasswordHash.Hashing(login.Password);
                 var authenticatedUser = _unitOfWork.Context.Users.FirstOrDefault(x => x.UserName == login.UserName);
 
-                if (authenticatedUser == null || authenticatedUser.Password != login.Password)
+                if (authenticatedUser == null || authenticatedUser.Password != HashPassword)
                 {
                     throw new Exception("not matched"); 
                 }

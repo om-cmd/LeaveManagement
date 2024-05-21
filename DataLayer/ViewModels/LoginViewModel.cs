@@ -1,7 +1,15 @@
-﻿namespace DomainLayer.ViewModels
+﻿using BusinessLayer.AttributeValidations;
+using System.ComponentModel.DataAnnotations;
+
+namespace DomainLayer.ViewModels
 {
-    public class LoginViewModel : PersonBaseModel
+    public class LoginViewModel 
     {
-      
+        [Required]
+        public string UserName { get; set; }
+
+        [Required]
+        [ValidatePassword]
+        public string Password { get; set; }
     }
 }

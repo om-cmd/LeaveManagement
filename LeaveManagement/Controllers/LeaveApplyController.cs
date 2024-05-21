@@ -5,7 +5,7 @@ using PresentationLayer.ViewModels;
 
 namespace LeaveManagement.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,Admin")]
 
     [Route("api/[controller]")]
     [ApiController]

@@ -17,14 +17,7 @@ namespace BusinessLayer.Repositories
             _mapper = mapper;
         }
 
-        public Employee CreateEmployee(EmployeeViewModel model)
-        {
-            var employee = _mapper.Map<Employee>(model);
-            employee.JoinedDate = DateTime.Now;
-            _unitOfWork.Context.Employee.Add(employee);
-            _unitOfWork.Context.SaveChanges();
-            return employee;
-        }
+      
 
         public EmployeeViewModel DeleteEmployee(int id)
         {

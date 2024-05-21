@@ -2,10 +2,12 @@
 using DomainLayer.AcessLayer;
 using DomainLayer.IRepoInterface.IRepo;
 using LeaveManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using PresentationLayer.ViewModels;
 
 namespace BusinessLayer.Repositories
 {
+   
     public class LeaveTypeRepository : ILeaveTypeRepo
     {
         private readonly IUnitOfWork _unitOfWork;

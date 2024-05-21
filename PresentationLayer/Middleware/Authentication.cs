@@ -31,7 +31,8 @@ namespace BusinessLayer.Middleware
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, person.Id.ToString()),
-                new Claim(ClaimTypes.Name, person.UserName)
+                new Claim(ClaimTypes.Name, person.UserName),
+                new Claim(ClaimTypes.Role, person.Roles.ToString())
                 // Add additional claims for other properties of Person if needed
             };
 

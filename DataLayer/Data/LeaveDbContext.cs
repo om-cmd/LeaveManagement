@@ -21,8 +21,6 @@ namespace DomainLayer.Data
         public DbSet<User> Users { get; set; }
 
 
-        //public DbSet<Person> People { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder Builder)
         {

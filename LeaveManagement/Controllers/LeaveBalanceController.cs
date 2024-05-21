@@ -1,18 +1,12 @@
-﻿using AutoMapper;
-using DomainLayer.AcessLayer;
-using DomainLayer.Interface.IService;
-using DomainLayer.IRepoInterface.IRepo;
-using DomainLayer.Models;
-using LeaveManagement.Models;
+﻿using DomainLayer.Interface.IService;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PresentationLayer.ViewModels;
 
 namespace LeaveManagement.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,Admin")]
+
 
     [Route("api/[controller]")]
     [ApiController]

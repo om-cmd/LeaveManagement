@@ -1,18 +1,21 @@
-﻿using LeaveManagement.Models;
-
-namespace DomainLayer.Models
+﻿namespace DomainLayer.Models
 {
     public enum Roles
     {
-     Admin,
-     Employee
+        SuperAdmin,
+        Admin,
+        User
     }
     public enum Position
     {
+        TechnicalLead,
+        ProjectManager,
+        ProductManager,
         Intern,
         Trainee,
         Junior,
-        Senior
+        Senior,
+        HRManager
     }
     public enum ApprovalStatus
     {
@@ -27,9 +30,9 @@ namespace DomainLayer.Models
         Rejected
     }
     public enum Status
-    { 
+    {
         Active,
         InActive
     }
-   
+
 }

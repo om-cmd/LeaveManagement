@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainLayer.Migrations
 {
     [DbContext(typeof(LeaveDbContext))]
-    [Migration("20240517053701_INIT")]
+    [Migration("20240520101140_INIT")]
     partial class INIT
     {
         /// <inheritdoc />
@@ -105,6 +105,10 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -130,6 +134,9 @@ namespace DomainLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Roles")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -218,6 +225,10 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -238,6 +249,12 @@ namespace DomainLayer.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Roles")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()

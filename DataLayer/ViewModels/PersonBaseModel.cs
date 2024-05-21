@@ -1,5 +1,6 @@
 ﻿
 using BusinessLayer.AttributeValidations;
+using DomainLayer.Models;
 
 namespace DomainLayer.ViewModels
 {
@@ -18,6 +19,10 @@ namespace DomainLayer.ViewModels
         public string Address { get; set; }
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public Position Position { get; set; }
+        public DateTime JoinedDate { get; set; } = DateTime.Now;
+
+        public Roles Roles { get; set; }    
 
     }
 }

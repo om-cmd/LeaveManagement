@@ -13,11 +13,7 @@ namespace BusinessLayer.Services
             _repo = repo;
         }
 
-        public Employee CreateEmployee(EmployeeViewModel model)
-        {
-            return _repo.CreateEmployee(model);
-        }
-
+      
         public EmployeeViewModel DeleteEmployee(int id)
         {
             return _repo.DeleteEmployee(id);

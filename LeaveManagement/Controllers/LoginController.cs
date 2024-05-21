@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using Azure.Core;
-using BusinessLayer.Middleware;
-using DomainLayer.AcessLayer;
-using DomainLayer.Interface.IService;
+﻿using DomainLayer.Interface.IService;
 using DomainLayer.ViewModels;
-using LeaveManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveManagement.Controllers

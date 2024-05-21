@@ -1,15 +1,12 @@
-﻿using AutoMapper;
-using DomainLayer.AcessLayer;
-using DomainLayer.Interface.IService;
-using LeaveManagement.Models;
+﻿using DomainLayer.Interface.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PresentationLayer.VIewModels;
 
 namespace LeaveManagement.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,Admin")]
+
 
     [ApiController]
     [Route("api/[controller]")]
@@ -30,12 +27,7 @@ namespace LeaveManagement.Controllers
             return Ok(employee);
         }
        
-        [HttpPost]
-        public IActionResult CreateEmployee(EmployeeViewModel employee)
-        {
-            var employe = _service.CreateEmployee(employee);
-            return Ok(employee);
-        }
+       
         [HttpPut("{id}")]
         public IActionResult UpdateEmployee(EmployeeViewModel employee, int id)
         {

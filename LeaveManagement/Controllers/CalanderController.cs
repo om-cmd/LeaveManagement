@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using DomainLayer.AcessLayer;
-using DomainLayer.Interface.IService;
-using LeaveManagement.Models;
+﻿using DomainLayer.Interface.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.ViewModels;
 
 namespace LeaveManagement.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CalanderController : ControllerBase
@@ -27,6 +23,11 @@ namespace LeaveManagement.Controllers
            var list = _calanerService.CalanderList();
             return Ok(list);
         }
+
+        [Authorize(Roles ="SuperAdmin")]
+        [Authorize(Roles ="Admin")]
+
+
         [HttpGet("{id}")]
         public IActionResult GetHoliday(int id)
         {
@@ -40,6 +41,8 @@ namespace LeaveManagement.Controllers
                 return StatusCode(500, $"An error occurred while retrieving holiday: {ex.Message}");
             }
         }
+        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("add")]
         public IActionResult AddHoliday([FromBody] CalanderViewModel holidayViewModel)
         {
@@ -47,7 +50,8 @@ namespace LeaveManagement.Controllers
             return Ok(holiday); 
         }
 
-
+        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult RemoveHoliday(int id)
         {

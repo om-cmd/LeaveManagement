@@ -13,11 +13,11 @@ namespace LeaveManagement.AutoMapperProfile
         {
             CreateMap<Employee, EmployeeViewModel>().ReverseMap();
             CreateMap<EmployeeViewModel, Employee>()
-          .ForMember(x => x.JoinedDate, y=> y.MapFrom(src => DateTime.Now));
+          .ForMember(x => x.JoinedDate, y => y.MapFrom(src => DateTime.Now));
 
             CreateMap<Employee, PersonBaseModel>().ReverseMap();
             CreateMap<User, PersonBaseModel>().ReverseMap();
-            
+
 
             CreateMap<Calander, CalanderViewModel>().ReverseMap();
 
@@ -27,9 +27,14 @@ namespace LeaveManagement.AutoMapperProfile
 
             CreateMap<User, LoginViewModel>().ReverseMap();
 
-            CreateMap<User, RegisterViewModel>().ReverseMap();
-
-            CreateMap<Person,PersonBaseModel>().ReverseMap();
+            CreateMap<User, RegisterViewModel>()
+                 .ForMember(dest => dest.Password, opt => opt.Ignore());
+            CreateMap<RegisterViewModel, User>()
+                 .ForMember(dest => dest.Password, opt => opt.Ignore());
+             
+            CreateMap<Person, PersonBaseModel>().ReverseMap()
+                 .ForMember(dest => dest.Password, opt => opt.Ignore());
+            ;
 
 
 
