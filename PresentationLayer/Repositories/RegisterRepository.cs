@@ -28,18 +28,32 @@ namespace BusinessLayer.Repositories
             }
             string HashPassword = PasswordHash.Hashing(register.Password);
 
-            var person = _mapper.Map<Person>(register);
-            person.JoinedDate = DateTime.Now;
-            person.CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-            person.Password = HashPassword;
+            var userName = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new Exception("The CreatedBy field cannot be null or empty.");
+            }
 
+            // Map the register view model to the employee entity
             Employee employee = _mapper.Map<Employee>(register);
-            User users = _mapper.Map<User>(register);
+            employee.Password = HashPassword;
+            employee.JoinedDate = DateTime.Now;
+            employee.CreatedBy = userName;
+
+            // Map the register view model to the user entity
+            User user = _mapper.Map<User>(register);
+            user.Password = HashPassword;
+            user.JoinedDate = DateTime.Now;
+            user.CreatedBy = userName;
+
+            // Add the new entities to the context
             _unitOfWork.Context.Employee.Add(employee);
-            _unitOfWork.Context.Users.Add(users);
+            _unitOfWork.Context.Users.Add(user);
+
+            // Save changes to the database
             _unitOfWork.Context.SaveChanges();
 
-            return person;
+            return employee;
 
         }
     }

@@ -30,7 +30,6 @@ namespace BusinessLayer.Repositories
                 {
                     throw new Exception("not matched"); 
                 }
-
                 var user = _mapper.Map<User>(authenticatedUser);
                 var token = _middleware.ProvideBothToken(user);
 

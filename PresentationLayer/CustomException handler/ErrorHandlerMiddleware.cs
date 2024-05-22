@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.CustomException_handler
 {
@@ -35,6 +31,7 @@ namespace BusinessLayer.CustomException_handler
 
                 switch (error)
                 {
+
                     case ApplicationException e: // Custom application error
                         _logger.LogError(e, "Custom application error occurred.");
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -59,6 +56,24 @@ namespace BusinessLayer.CustomException_handler
                         _logger.LogError(e, "Not implemented error occurred.");
                         response.StatusCode = (int)HttpStatusCode.NotImplemented;
                         break;
+                    case UnauthorizedAccessException e: // Unauthorized access error
+                        _logger.LogError(e, "Unauthorized access error occurred.");
+                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        break;
+                    case FormatException e: // Format error
+                        _logger.LogError(e, "Format error occurred.");
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        break;
+                    case TimeoutException e: // Timeout error
+                        _logger.LogError(e, "Timeout error occurred.");
+                        response.StatusCode = (int)HttpStatusCode.RequestTimeout;
+                        break;
+                    case ValidationException e: // Validation error
+                        _logger.LogError(e, "Validation error occurred.");
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        break;
+                    // Add more cases as needed...
+
                     default:
                         _logger.LogError(error, "An unexpected error occurred.");
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
