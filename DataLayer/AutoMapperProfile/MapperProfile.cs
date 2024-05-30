@@ -24,6 +24,7 @@ namespace LeaveManagement.AutoMapperProfile
             CreateMap<LeaveType, LeaveTypeViewModel>().ReverseMap();
 
             CreateMap<LeaveApply, LeaveApplyViewModel>().ReverseMap();
+            CreateMap<Notification, NotificationViewModel>().ReverseMap();
 
             CreateMap<User, LoginViewModel>().ReverseMap();
 
