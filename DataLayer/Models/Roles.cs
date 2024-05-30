@@ -23,12 +23,7 @@
         Approved,
         Rejected
     }
-    public enum RequestStatus
-    {
-        Submitted,
-        Approved,
-        Rejected
-    }
+ 
     public enum Status
     {
         Active,

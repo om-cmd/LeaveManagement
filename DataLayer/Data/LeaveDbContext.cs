@@ -2,6 +2,7 @@
 using DomainLayer.Models;
 using LeaveManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 namespace DomainLayer.Data
 {
     public class LeaveDbContext : DbContext
@@ -19,18 +20,23 @@ namespace DomainLayer.Data
         public DbSet<LeaveType> LeaveType { get; set; }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Notification> Notification { get; set; }
 
 
 
         protected override void OnModelCreating(ModelBuilder Builder)
         {
+            Builder.Entity<Notification>()
+           .Property(n => n.Id)
+           .ValueGeneratedOnAdd();
+
             Builder.ApplyConfiguration(new EmployeeConfig());
             Builder.ApplyConfiguration(new CalanderConfig());
             Builder.ApplyConfiguration(new LeaveTypeConfig());
             Builder.ApplyConfiguration(new LeaveApplyConfig());
             Builder.ApplyConfiguration(new LeaveBalanceConfig());
             Builder.ApplyConfiguration(new UserConfig());
-            //Builder.ApplyConfiguration(new PersonConfig());
+
 
             base.OnModelCreating(Builder); 
         }

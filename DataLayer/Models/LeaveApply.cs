@@ -18,7 +18,7 @@ namespace DomainLayer.Models
 
         public DateTime AppliedToDate { get; set; }
 
-       
+       public ApprovalStatus Status { get; set; }
 
         [ForeignKey(nameof(Employee))]
         public int EmployeeId { get; set; }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainLayer.Migrations
 {
     [DbContext(typeof(LeaveDbContext))]
-    [Migration("20240520101140_INIT")]
+    [Migration("20240530111321_INIT")]
     partial class INIT
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace DomainLayer.Migrations
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
@@ -59,6 +62,34 @@ namespace DomainLayer.Migrations
                     b.HasIndex("LeaveTypeId");
 
                     b.ToTable("DTbl_LeaveApply", (string)null);
+                });
+
+            modelBuilder.Entity("DomainLayer.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("LeaveManagement.Models.Calander", b =>
@@ -284,6 +315,17 @@ namespace DomainLayer.Migrations
                     b.Navigation("LeaveType");
                 });
 
+            modelBuilder.Entity("DomainLayer.Models.Notification", b =>
+                {
+                    b.HasOne("LeaveManagement.Models.Employee", "Employee")
+                        .WithMany("Notification")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("LeaveManagement.Models.LeaveBalance", b =>
                 {
                     b.HasOne("DomainLayer.Models.LeaveApply", "LeaveApply")
@@ -313,6 +355,8 @@ namespace DomainLayer.Migrations
                     b.Navigation("LeaveApply");
 
                     b.Navigation("LeaveBalances");
+
+                    b.Navigation("Notification");
                 });
 
             modelBuilder.Entity("LeaveManagement.Models.LeaveType", b =>

@@ -8,5 +8,7 @@ namespace LeaveManagement.Models
         public DateTime? LeftDate { get; set; }
         public ICollection<LeaveBalance> LeaveBalances { get; set; }
         public ICollection<LeaveApply> LeaveApply { get; set; }
+
+        public ICollection<Notification> Notification { get; set; }
     }
 }

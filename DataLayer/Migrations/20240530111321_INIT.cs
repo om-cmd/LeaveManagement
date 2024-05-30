@@ -91,6 +91,28 @@ namespace DomainLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notification_DTbl_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "DTbl_Employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DTbl_LeaveApply",
                 columns: table => new
                 {
@@ -100,6 +122,7 @@ namespace DomainLayer.Migrations
                     LeaveApplyDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppliedFromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AppliedToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     LeaveTypeId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -171,6 +194,11 @@ namespace DomainLayer.Migrations
                 name: "IX_DTbl_LeaveBalances_PersonId",
                 table: "DTbl_LeaveBalances",
                 column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_EmployeeId",
+                table: "Notification",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
@@ -184,6 +212,9 @@ namespace DomainLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "DTbl_User");
+
+            migrationBuilder.DropTable(
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "DTbl_LeaveApply");

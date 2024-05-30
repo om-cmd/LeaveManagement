@@ -14,6 +14,8 @@ namespace BusinessLayer.IService
             services.AddScoped<ILeaveTypeService, LeaveTypeService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRegisterService, RegisterService>();
+            services.AddScoped<INotificationService, NotificationService>();
+
             return services;
 
         }
