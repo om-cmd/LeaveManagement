@@ -7,15 +7,27 @@ using System.Text;
 
 namespace BusinessLayer.Middleware
 {
+    /// <summary>
+    /// Provides methods for authentication and token generation.
+    /// </summary>
     public class Authentication
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Authentication"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration settings.</param>
         public Authentication(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Generates both access and refresh tokens for the provided person.
+        /// </summary>
+        /// <param name="person">The person for whom tokens are generated.</param>
+        /// <returns>A tuple containing the access token and refresh token.</returns>
         public (string AccessToken, string RefreshToken) ProvideBothToken(Person person)
         {
             var accessToken = GenerateJwtToken(person);
@@ -23,6 +35,11 @@ namespace BusinessLayer.Middleware
             return (accessToken, refreshToken);
         }
 
+        /// <summary>
+        /// Generates a JWT access token for the provided person.
+        /// </summary>
+        /// <param name="person">The person for whom the token is generated.</param>
+        /// <returns>The generated JWT access token.</returns>
         public string GenerateJwtToken(Person person)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));
@@ -51,6 +68,10 @@ namespace BusinessLayer.Middleware
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        /// <summary>
+        /// Generates a random refresh token.
+        /// </summary>
+        /// <returns>The generated refresh token.</returns>
         private string GenerateRefreshToken()
         {
             if (!int.TryParse(_configuration["Jwt:RefreshTokenExpiresInDays"], out int refreshTokenExpiresInDays))

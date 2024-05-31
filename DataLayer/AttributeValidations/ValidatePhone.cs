@@ -1,59 +1,66 @@
-﻿using DomainLayer.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BusinessLayer.AttributeValidations
 {
+    /// <summary>
+    /// Validates phone numbers to ensure they meet specific criteria.
+    /// </summary>
     public class ValidatePhone : ValidationAttribute
     {
+        /// <inheritdoc />
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var phone = value as string;
             if (string.IsNullOrWhiteSpace(phone))
             {
                 return new ValidationResult("Phone number cannot be null or empty.");
-
             }
-            int minLength = 10; 
+
+            int minLength = 10;
             int maxLength = 12;
             if (phone.Length > maxLength)
             {
-                return new ValidationResult("it should not exceed the length");
+                return new ValidationResult("Phone number length should not exceed the maximum length.");
             }
             if (phone.Length < minLength)
             {
-                return new ValidationResult("phone shou;d be longer than min length");
+                return new ValidationResult("Phone number should be longer than the minimum length.");
             }
             var prefix = phone.Substring(0, 2);
             if (prefix != "98" && prefix != "97" && prefix != "96")
             {
                 return new ValidationResult("Phone number should start with 97, 96, or 98.");
             }
+
             return ValidationResult.Success;
         }
     }
+
+    /// <summary>
+    /// Validates email addresses to ensure they are in a valid format.
+    /// </summary>
     public class ValidateEmail : ValidationAttribute
     {
+        /// <inheritdoc />
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var email = value as string;
             if (string.IsNullOrWhiteSpace(email))
             {
-                return new ValidationResult("email shouldnot be empty");
+                return new ValidationResult("Email should not be empty.");
             }
+
             if (!IsValidEmail(email))
             {
-                return new ValidationResult("it is not valid format");
+                return new ValidationResult("Email is not in a valid format.");
             }
-            //if(EmailAlreadyExist(email))
-            //{
-            //    return new ValidationResult("Email is already in use.");
 
-            //}
             return ValidationResult.Success;
         }
+
         private bool IsValidEmail(string email)
         {
             try
@@ -67,27 +74,28 @@ namespace BusinessLayer.AttributeValidations
                 return false;
             }
         }
-        //private bool EmailAlreadyExist(string email)
-        //{
-        //    using  (var DbContext = new LeaveDbContext())
-        //    {
-        //        return DbContext.Users.Any(u => u.Email == email);
-
-        //    };
-        //}
-      
     }
+
+    /// <summary>
+    /// Validates passwords to ensure they meet specific complexity requirements.
+    /// </summary>
     public class ValidatePassword : ValidationAttribute
     {
         private readonly int _minLength;
         private readonly int _minUniqueCharacters;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValidatePassword"/> class with optional parameters.
+        /// </summary>
+        /// <param name="minLength">The minimum length of the password.</param>
+        /// <param name="minUniqueCharacters">The minimum number of unique characters required in the password.</param>
         public ValidatePassword(int minLength = 8, int minUniqueCharacters = 3)
         {
             _minLength = minLength;
             _minUniqueCharacters = minUniqueCharacters;
         }
 
+        /// <inheritdoc />
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var password = value as string;
@@ -123,7 +131,6 @@ namespace BusinessLayer.AttributeValidations
                 return new ValidationResult("Password must contain at least one digit.");
             }
 
-
             if (IsCommonPassword(password))
             {
                 return new ValidationResult("Password is too common or weak.");
@@ -142,16 +149,15 @@ namespace BusinessLayer.AttributeValidations
             return password.Any(char.IsLower);
         }
 
-
         private bool ContainsDigit(string password)
         {
-            return password.Any(_ => char.IsDigit(_));
+            return password.Any(char.IsDigit);
         }
 
         // Method to check against common or weak passwords 
         private bool IsCommonPassword(string password)
         {
-            string[] commonPasswords = { "password", "123456", "qwerty", "abc123", "bokoChoda" }; 
+            string[] commonPasswords = { "password", "123456", "qwerty", "abc123", "bokoChoda" };
 
             return commonPasswords.Contains(password.ToLower());
         }

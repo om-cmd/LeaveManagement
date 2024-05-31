@@ -5,6 +5,9 @@ using LeaveManagement.Models;
 
 namespace DomainLayer.Models
 {
+    /// <summary>
+    ///This is the leaveApply model 
+    /// </summary>
     public class LeaveApply
     {
         [Key]

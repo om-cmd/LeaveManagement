@@ -2,29 +2,39 @@
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.Models;
 using LeaveManagement.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PresentationLayer.ViewModels;
 
 namespace BusinessLayer.Repositories
-{
-  
+{/// <summary>
+/// to Calculate leave avaialable or check the information 
+/// </summary>
+ 
     public class LeaveBalanceRepository : ILeaveBalanceRepo
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// injection of unitof work 
+        /// </summary>
+        /// <param name="unitOfWork">The unit of work for data access operations</param>
         public LeaveBalanceRepository(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+
+       /// <summary>
+       /// calculates the leave informations
+       /// </summary>
+       /// <param name="request">takes the view model params for calculations</param>
+       /// <returns></returns>
         public LeaveBalance CalculateLeave(LeaveCalculationRequest request)
         {
-
             // Retrieve employee information based on the provided employee ID
             Employee employee = _unitOfWork.Context.Employee.FirstOrDefault(e => e.Id == request.EmployeeID);
             if (employee == null)
             {
-                return null; 
+                return null;
             }
 
             // Get the position of the employee
@@ -60,9 +70,12 @@ namespace BusinessLayer.Repositories
             _unitOfWork.Context.SaveChanges();
 
             return leaveBalance; // Return the updated or created leave balance
-
         }
 
+      /// <summary>
+      /// leave balance Sheet
+      /// </summary>
+      /// <returns>the lsit of the employee who have taken leave</returns>
         public LeaveBalance LeaveBalanceList()
         {
             // Retrieve the leave balance for the current year
@@ -71,10 +84,14 @@ namespace BusinessLayer.Repositories
                 .FirstOrDefault(lb => lb.Year == DateTime.Now.Year);
 
             return leaveBalance;
-
-
         }
 
+        /// <summary>
+        /// Determines the total leave allotted based on the position.
+        /// </summary>
+        /// <param name="position">The position of the employee.</param>
+        /// <returns>The total leave allotted for the position.</returns>
+        /// <exception cref="ArgumentException">Thrown when an invalid position is provided.</exception>
         private int GetTotalLeaveAllotted(Position position)
         {
             // Determine the total leave allotted based on the position

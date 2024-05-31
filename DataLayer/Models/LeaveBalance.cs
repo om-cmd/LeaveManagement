@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeaveManagement.Models
 {
+    /// <summary>
+    /// this is the LeaveBalance model 
+    /// </summary>
     public class LeaveBalance
     {
         [Key]

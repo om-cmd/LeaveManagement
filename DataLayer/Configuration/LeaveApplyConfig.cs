@@ -4,8 +4,15 @@ using DomainLayer.Models;
 
 namespace DomainLayer.Configuration
 {
+    /// <summary>
+    /// Configuration class for the LeaveApply entity.
+    /// </summary>
     public class LeaveApplyConfig : IEntityTypeConfiguration<LeaveApply>
     {
+        /// <summary>
+        /// Configures the LeaveApply entity.
+        /// </summary>
+        /// <param name="builder">The entity type builder.</param>
         public void Configure(EntityTypeBuilder<LeaveApply> builder)
         {
             builder.ToTable("DTbl_LeaveApply");
@@ -15,25 +22,6 @@ namespace DomainLayer.Configuration
             builder.Property(la => la.LeaveApplyEnabled).IsRequired();
             builder.Property(la => la.AppliedFromDate).IsRequired();
             builder.Property(la => la.AppliedToDate).IsRequired();
-
-            //builder.HasOne(la => la.Employee)
-            //     .WithMany() 
-            //     .HasForeignKey(la => la.EmployeeId)
-            //     .IsRequired()
-            //     .OnDelete(DeleteBehavior.Restrict)
-            //     .HasConstraintName("FK_LeaveApplies_Person");
-
-
-            //builder.HasOne(la => la.LeaveType)
-            //    .WithMany(lt => lt.LeaveApply)
-            //    .HasForeignKey(la => la.LeaveTypeId)
-            //    .IsRequired()
-            //    .OnDelete(DeleteBehavior.Restrict)
-            //    .HasConstraintName("FK_LeaveApplies_LeaveTypes");
-
-         
-
-
         }
     }
 }

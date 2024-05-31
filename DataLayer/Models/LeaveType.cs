@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LeaveManagement.Models
 {
+    /// <summary>
+    /// This is the model of leaveType 
+    /// </summary>
     public class LeaveType
     {
         [Key]

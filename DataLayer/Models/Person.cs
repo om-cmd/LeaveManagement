@@ -1,10 +1,11 @@
 ﻿using DomainLayer.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace LeaveManagement.Models
 {
+    /// <summary>
+    /// This is the base model used for Employee and User Creation
+    /// </summary>
     public class Person
     {
         [Key]

@@ -4,8 +4,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.IService
 {
+    /// <summary>
+    /// Extension methods for configuring service dependencies.
+    /// </summary>
     public static class Services
     {
+        /// <summary>
+        /// Adds the service dependencies to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The service collection to which the service dependencies will be added.</param>
+        /// <returns>The updated service collection.</returns>
+        /// <remarks>
+        /// This method registers all the necessary services as scoped services in the dependency injection container.
+        /// </remarks>
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IEmployeeService, EmployeeService>();
@@ -17,7 +28,6 @@ namespace BusinessLayer.IService
             services.AddScoped<INotificationService, NotificationService>();
 
             return services;
-
         }
     }
 }

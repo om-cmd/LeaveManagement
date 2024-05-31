@@ -2,6 +2,9 @@
 
 namespace LeaveManagement.Models
 {
+    /// <summary>
+    /// this is the model of employee inherited from person base class.
+    /// </summary>
     public class Employee : Person
     {
         public Status Status { get; set; }

@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DomainLayer.Configuration
 {
+    /// <summary>
+    /// Configuration class for the Calander entity.
+    /// </summary>
     public class CalanderConfig : IEntityTypeConfiguration<Calander>
     {
+        /// <summary>
+        /// Configures the Calander entity.
+        /// </summary>
+        /// <param name="builder">The entity type builder.</param>
         public void Configure(EntityTypeBuilder<Calander> builder)
         {
             builder.ToTable("DTbl_Calander");
@@ -16,7 +23,6 @@ namespace DomainLayer.Configuration
             builder.Property(x => x.IsPublicHoliday).IsRequired();
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.Region).IsRequired();
-         
         }
     }
 }

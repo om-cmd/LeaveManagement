@@ -4,8 +4,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.RepoService
 {
+    /// <summary>
+    /// Extension methods for configuring repository services.
+    /// </summary>
     public static class RepoServiceCon
     {
+        /// <summary>
+        /// Adds the repository services to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The service collection to which the repository services will be added.</param>
+        /// <returns>The updated service collection.</returns>
+        /// <remarks>
+        /// This method registers all the necessary repositories as scoped services in the dependency injection container.
+        /// </remarks>
         public static IServiceCollection Repository(this IServiceCollection services)
         {
             services.AddScoped<ICalanderRepo, CalanderRepository>();

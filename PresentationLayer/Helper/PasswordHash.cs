@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Helper
 {
+    /// <summary>
+    /// Provides methods for hashing passwords.
+    /// </summary>
     public static class PasswordHash
     {
+        /// <summary>
+        /// Computes the SHA256 hash of the specified password.
+        /// </summary>
+        /// <param name="password">The password to hash.</param>
+        /// <returns>The hashed password as a hexadecimal string.</returns>
         public static string Hashing(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

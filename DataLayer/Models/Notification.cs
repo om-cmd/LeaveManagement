@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DomainLayer.Models
 {
+    /// <summary>
+    /// this is the notification model used for Employee reminder
+    /// </summary>
     public class Notification
     {
         [Key]
