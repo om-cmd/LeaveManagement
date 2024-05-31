@@ -4,6 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>C:\Users\parla\source\repos\LeaveManagement\Documentation\DomainLayer.txt</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

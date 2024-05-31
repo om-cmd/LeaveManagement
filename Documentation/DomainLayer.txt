@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DomainLayer</name>
+    </assembly>
+    <members>
+        <member name="T:DomainLayer.AcessLayer.IUnitOfWork">
+            <summary>
+            Interface for Unit of Work pattern to manage database operations.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.AcessLayer.IUnitOfWork.Context">
+            <summary>
+            Gets the database context associated with the unit of work.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.AcessLayer.IUnitOfWork.Save">
+            <summary>
+            Saves changes made in the unit of work to the database.
+            </summary>
+        </member>
+        <member name="T:DomainLayer.UnitOfWork.UnitOfWork">
+            <summary>
+            Implementation of the Unit of Work pattern for managing database operations.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.UnitOfWork.UnitOfWork.#ctor(DomainLayer.Data.LeaveDbContext)">
+            <summary>
+            Initializes a new instance of the UnitOfWork class with the provided database context.
+            </summary>
+            <param name="context">The database context to be used by the unit of work.</param>
+        </member>
+        <member name="P:DomainLayer.UnitOfWork.UnitOfWork.Context">
+            <summary>
+            Gets the database context associated with the unit of work.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.UnitOfWork.UnitOfWork.Save">
+            <summary>
+            Saves changes made in the unit of work to the database.
+            </summary>
+        </member>
+        <member name="T:DomainLayer.Configuration.CalanderConfig">
+            <summary>
+            Configuration class for the Calander entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.CalanderConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{LeaveManagement.Models.Calander})">
+            <summary>
+            Configures the Calander entity.
+            </summary>
+            <param name="builder">The entity type builder.</param>
+        </member>
+        <member name="T:DomainLayer.Configuration.EmployeeConfig">
+            <summary>
+            Configuration class for the Employee entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.EmployeeConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{LeaveManagement.Models.Employee})">
+            <summary>
+            Configures the Employee entity.
+            </summary>
+            <param name="builder">The entity type builder.</param>
+        </member>
+        <member name="T:DomainLayer.Configuration.LeaveApplyConfig">
+            <summary>
+            Configuration class for the LeaveApply entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.LeaveApplyConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{DomainLayer.Models.LeaveApply})">
+            <summary>
+            Configures the LeaveApply entity.
+            </summary>
+            <param name="builder">The entity type builder.</param>
+        </member>
+        <member name="T:DomainLayer.Configuration.LeaveBalanceConfig">
+            <summary>
+            Configuration class for the LeaveBalance entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.LeaveBalanceConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{LeaveManagement.Models.LeaveBalance})">
+            <summary>
+            Configures the LeaveBalance entity.
+            </summary>
+            <param name="builder">The entity type builder.</param>
+        </member>
+        <member name="T:DomainLayer.Configuration.LeaveTypeConfig">
+            <summary>
+            Configuration class for the LeaveType entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.LeaveTypeConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{LeaveManagement.Models.LeaveType})">
+            <summary>
+            Configures the LeaveType entity.
+            </summary>
+            <param name="builder">The entity type builder.</param>
+        </member>
+        <member name="T:DomainLayer.Configuration.PersonConfig">
+            <summary>
+            Configuration class for the Person entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.PersonConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{LeaveManagement.Models.Person})">
+            <summary>
+            Configures the Person entity.
+            </summary>
+            <param name="builder">The entity type builder.</param>
+        </member>
+        <member name="T:DomainLayer.Configuration.UserConfig">
+            <summary>
+            used to set the properties of user before migration is performed 
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Configuration.UserConfig.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{LeaveManagement.Models.User})">
+            <summary>
+            configuring the user
+            </summary>
+            <param name="builder">the entity type builder </param>
+        </member>
+        <member name="T:DomainLayer.Data.LeaveDbContext">
+            <summary>
+            Represents the database context for Leave Management.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Data.LeaveDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{DomainLayer.Data.LeaveDbContext})">
+            <summary>
+            Initializes a new instance of the <see cref="T:DomainLayer.Data.LeaveDbContext"/> class.
+            </summary>
+            <param name="options">The options for the database context.</param>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.Employee">
+            <summary>
+            Gets or sets the DbSet for the Employee entity.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.HolidayCalanders">
+            <summary>
+            Gets or sets the DbSet for the Calander entity.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.LeaveApply">
+            <summary>
+            Gets or sets the DbSet for the LeaveApply entity.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.LeaveBalance">
+            <summary>
+            Gets or sets the DbSet for the LeaveBalance entity.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.LeaveType">
+            <summary>
+            Gets or sets the DbSet for the LeaveType entity.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.Users">
+            <summary>
+            Gets or sets the DbSet for the User entity.
+            </summary>
+        </member>
+        <member name="P:DomainLayer.Data.LeaveDbContext.Notification">
+            <summary>
+            Gets or sets the DbSet for the Notification entity.
+            </summary>
+        </member>
+        <member name="M:DomainLayer.Data.LeaveDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configures the model for the database context.
+            </summary>
+            <param name="builder">The model builder instance being used to construct the model for this context.</param>
+        </member>
+        <member name="T:DomainLayer.Migrations.INIT">
+            <inheritdoc />
+        </member>
+        <member name="M:DomainLayer.Migrations.INIT.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:DomainLayer.Migrations.INIT.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:DomainLayer.Migrations.INIT.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:DomainLayer.Models.LeaveApply">
+             <summary>
+            This is the leaveApply model 
+             </summary>
+        </member>
+        <member name="T:DomainLayer.Models.Notification">
+            <summary>
+            this is the notification model used for Employee reminder
+            </summary>
+        </member>
+        <member name="T:DomainLayer.Models.Roles">
+            <summary>
+            theses are the enum classes 
+            </summary>
+        </member>
+        <member name="T:DomainLayer.Models.Position">
+            <summary>
+            this is for the employee position
+            </summary>
+        </member>
+        <member name="T:DomainLayer.Models.ApprovalStatus">
+            <summary>
+            this is for the approval of the leave applied 
+            </summary>
+        </member>
+        <member name="T:DomainLayer.Models.Status">
+            <summary>
+            this is the active status for user and employee
+            </summary>
+        </member>
+        <member name="T:BusinessLayer.AttributeValidations.ValidatePhone">
+            <summary>
+            Validates phone numbers to ensure they meet specific criteria.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.AttributeValidations.ValidatePhone.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BusinessLayer.AttributeValidations.ValidateEmail">
+            <summary>
+            Validates email addresses to ensure they are in a valid format.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.AttributeValidations.ValidateEmail.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BusinessLayer.AttributeValidations.ValidatePassword">
+            <summary>
+            Validates passwords to ensure they meet specific complexity requirements.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.AttributeValidations.ValidatePassword.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BusinessLayer.AttributeValidations.ValidatePassword"/> class with optional parameters.
+            </summary>
+            <param name="minLength">The minimum length of the password.</param>
+            <param name="minUniqueCharacters">The minimum number of unique characters required in the password.</param>
+        </member>
+        <member name="M:BusinessLayer.AttributeValidations.ValidatePassword.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:LeaveManagement.AutoMapperProfile.MapperProfile">
+            <summary>
+            AutoMapper profile to define mappings between domain models and view models.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.AutoMapperProfile.MapperProfile.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LeaveManagement.AutoMapperProfile.MapperProfile"/> class.
+            </summary>
+        </member>
+        <member name="T:LeaveManagement.Models.Calander">
+            <summary>
+            This is the model of calander
+            </summary>
+        </member>
+        <member name="T:LeaveManagement.Models.Employee">
+            <summary>
+            this is the model of employee inherited from person base class.
+            </summary>
+        </member>
+        <member name="T:LeaveManagement.Models.LeaveBalance">
+            <summary>
+            this is the LeaveBalance model 
+            </summary>
+        </member>
+        <member name="T:LeaveManagement.Models.LeaveType">
+            <summary>
+            This is the model of leaveType 
+            </summary>
+        </member>
+        <member name="T:LeaveManagement.Models.Person">
+            <summary>
+            This is the base model used for Employee and User Creation
+            </summary>
+        </member>
+        <member name="T:LeaveManagement.Models.User">
+            <summary>
+            this is the child model for base class Person
+            </summary>
+        </member>
+    </members>
+</doc>

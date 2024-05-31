@@ -1,0 +1,444 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BusinessLayer</name>
+    </assembly>
+    <members>
+        <member name="T:BusinessLayer.CustomException_handler.ErrorHandlerMiddleware">
+            <summary>
+            Middleware for handling errors and returning appropriate responses.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.CustomException_handler.ErrorHandlerMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{BusinessLayer.CustomException_handler.ErrorHandlerMiddleware})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BusinessLayer.CustomException_handler.ErrorHandlerMiddleware"/> class.
+            </summary>
+            <param name="next">The next request delegate.</param>
+            <param name="logger">The logger instance.</param>
+        </member>
+        <member name="M:BusinessLayer.CustomException_handler.ErrorHandlerMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invokes the middleware.
+            </summary>
+            <param name="context">The HTTP context.</param>
+        </member>
+        <member name="T:BusinessLayer.Helper.PasswordHash">
+            <summary>
+            Provides methods for hashing passwords.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Helper.PasswordHash.Hashing(System.String)">
+            <summary>
+            Computes the SHA256 hash of the specified password.
+            </summary>
+            <param name="password">The password to hash.</param>
+            <returns>The hashed password as a hexadecimal string.</returns>
+        </member>
+        <member name="T:BusinessLayer.Extensions.AuthenticationExtensions">
+            <summary>
+            Extension methods for configuring authentication services.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Extensions.AuthenticationExtensions.AddCustomAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds custom JWT authentication to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which the authentication services will be added.</param>
+            <param name="configuration">The application configuration from which JWT settings will be retrieved.</param>
+            <returns>The updated service collection.</returns>
+            <remarks>
+            This method configures JWT bearer token authentication using settings defined in the application configuration.
+            </remarks>
+        </member>
+        <member name="T:BusinessLayer.Extensions.DbContextExtensions">
+            <summary>
+            Extension methods for configuring the database context.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Extensions.DbContextExtensions.AddCustomDbContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Adds the custom database context to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which the database context will be added.</param>
+            <param name="connectionString">The connection string used to connect to the database.</param>
+            <returns>The updated service collection.</returns>
+            <remarks>
+            This method configures the <see cref="T:DomainLayer.Data.LeaveDbContext"/> to use SQL Server with the provided connection string.
+            </remarks>
+        </member>
+        <member name="T:BusinessLayer.Extensions.DbInitializerExtensions">
+            <summary>
+            Extension methods for configuring the database initializer.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Extensions.DbInitializerExtensions.AddDbInitializer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the database initializer to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which the database initializer will be added.</param>
+            <returns>The updated service collection.</returns>
+            <remarks>
+            This method registers the <see cref="T:DomainLayer.DBSeeding.DbInitializer"/> as a scoped service in the dependency injection container.
+            </remarks>
+        </member>
+        <member name="T:BusinessLayer.Extensions.UnitOfWorkExtensions">
+            <summary>
+            Extension methods for configuring Unit of Work dependencies.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Extensions.UnitOfWorkExtensions.AddUnitOfWork(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the Unit of Work dependency to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which the Unit of Work dependency will be added.</param>
+            <returns>The updated service collection.</returns>
+            <remarks>
+            This method registers the Unit of Work as a scoped service in the dependency injection container.
+            </remarks>
+        </member>
+        <member name="T:BusinessLayer.RepoService.RepoServiceCon">
+            <summary>
+            Extension methods for configuring repository services.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.RepoService.RepoServiceCon.Repository(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the repository services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which the repository services will be added.</param>
+            <returns>The updated service collection.</returns>
+            <remarks>
+            This method registers all the necessary repositories as scoped services in the dependency injection container.
+            </remarks>
+        </member>
+        <member name="T:BusinessLayer.IService.Services">
+            <summary>
+            Extension methods for configuring service dependencies.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.IService.Services.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the service dependencies to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which the service dependencies will be added.</param>
+            <returns>The updated service collection.</returns>
+            <remarks>
+            This method registers all the necessary services as scoped services in the dependency injection container.
+            </remarks>
+        </member>
+        <member name="T:BusinessLayer.Middleware.Authentication">
+            <summary>
+            Provides methods for authentication and token generation.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Middleware.Authentication.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BusinessLayer.Middleware.Authentication"/> class.
+            </summary>
+            <param name="configuration">The configuration settings.</param>
+        </member>
+        <member name="M:BusinessLayer.Middleware.Authentication.ProvideBothToken(LeaveManagement.Models.Person)">
+            <summary>
+            Generates both access and refresh tokens for the provided person.
+            </summary>
+            <param name="person">The person for whom tokens are generated.</param>
+            <returns>A tuple containing the access token and refresh token.</returns>
+        </member>
+        <member name="M:BusinessLayer.Middleware.Authentication.GenerateJwtToken(LeaveManagement.Models.Person)">
+            <summary>
+            Generates a JWT access token for the provided person.
+            </summary>
+            <param name="person">The person for whom the token is generated.</param>
+            <returns>The generated JWT access token.</returns>
+        </member>
+        <member name="M:BusinessLayer.Middleware.Authentication.GenerateRefreshToken">
+            <summary>
+            Generates a random refresh token.
+            </summary>
+            <returns>The generated refresh token.</returns>
+        </member>
+        <member name="T:BusinessLayer.Repositories.CalanderRepository">
+            <summary>
+            Provides methods to manage holiday calendar entries.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Repositories.CalanderRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BusinessLayer.Repositories.CalanderRepository"/> class.
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations.</param>
+            <param name="mapper">The mapper for object-object mapping.</param>
+        </member>
+        <member name="M:BusinessLayer.Repositories.CalanderRepository.AddHoliday(PresentationLayer.ViewModels.CalanderViewModel)">
+            <summary>
+            Adds a new holiday to the calendar.
+            </summary>
+            <param name="Holiday">The holiday view model to add.</param>
+            <returns>The added holiday entity.</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.CalanderRepository.CalanderList">
+            <summary>
+            Retrieves a list of public holidays from the calendar.
+            </summary>
+            <returns>A collection of holiday view models.</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.CalanderRepository.GetHoliday(System.Int32)">
+            <summary>
+            Gets the details of a specific holiday by its identifier.
+            </summary>
+            <param name="id">The identifier of the holiday.</param>
+            <returns>The holiday view model.</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.CalanderRepository.RemoveHoliday(System.Int32)">
+            <summary>
+            Removes a holiday from the calendar.
+            </summary>
+            <param name="id">The identifier of the holiday to remove.</param>
+            <returns>The removed holiday view model.</returns>
+        </member>
+        <member name="T:BusinessLayer.Repositories.EmployeeReposotory">
+            <summary>
+            used to manage employee
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Repositories.EmployeeReposotory.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            used for dependency injection
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations</param>
+            <param name="mapper">The mapper for object-object mapping</param>
+        </member>
+        <member name="M:BusinessLayer.Repositories.EmployeeReposotory.DeleteEmployee(System.Int32)">
+            <summary>
+            deletes the employee
+            </summary>
+            <param name="id">get id and deletes it </param>
+            <returns>MAPS the updated model after delte</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.EmployeeReposotory.EmployeeList">
+            <summary>
+            list of the employee
+            </summary>
+            <returns>returns  list of employee which are active</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.EmployeeReposotory.GetEmployee(System.Int32)">
+            <summary>
+            this is used to get the single employee
+            </summary>
+            <param name="id">takes id as parameter to find it from database</param>
+            <returns>return the id that have been called </returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.EmployeeReposotory.UpdateEmployee(PresentationLayer.VIewModels.EmployeeViewModel,System.Int32)">
+            <summary>
+            for the update of employee or edit its informations
+            </summary>
+            <param name="model">the viewModels params are used </param>
+            <param name="id">takes id as parameter to find it from database</param>
+            <returns></returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.UpdateLeaveApplicationStatusAsync(System.Int32,DomainLayer.Models.ApprovalStatus)">
+            <summary>
+            Updates the status of a leave application asynchronously.
+            </summary>
+            <param name="id">The identifier of the leave application.</param>
+            <param name="status">The new approval status.</param>
+            <returns>The updated leave application entity.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the leave application is not found.</exception>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.GetID(System.Int32)">
+            <summary>
+            Gets the details of a specific leave application by its identifier.
+            </summary>
+            <param name="id">The identifier of the leave application.</param>
+            <returns>The leave application view model.</returns>
+        </member>
+        <member name="T:BusinessLayer.Repositories.LeaveBalanceRepository">
+            <summary>
+            to Calculate leave avaialable or check the information 
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork)">
+            <summary>
+            injection of unitof work 
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations</param>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.CalculateLeave(PresentationLayer.ViewModels.LeaveCalculationRequest)">
+            <summary>
+            calculates the leave informations
+            </summary>
+            <param name="request">takes the view model params for calculations</param>
+            <returns></returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.LeaveBalanceList">
+            <summary>
+            leave balance Sheet
+            </summary>
+            <returns>the lsit of the employee who have taken leave</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.GetTotalLeaveAllotted(DomainLayer.Models.Position)">
+            <summary>
+            Determines the total leave allotted based on the position.
+            </summary>
+            <param name="position">The position of the employee.</param>
+            <returns>The total leave allotted for the position.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when an invalid position is provided.</exception>
+        </member>
+        <member name="T:BusinessLayer.Repositories.LeaveTypeRepository">
+            <summary>
+            used for Leavy type Curd Operations
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveTypeRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations</param>
+            <param name="mapper">The mapper for object-object mapping</param>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveTypeRepository.CreateLeaveType(PresentationLayer.ViewModels.LeaveTypeViewModel)">
+            <summary>
+            adds new leavetype
+            </summary>
+            <param name="model"> the viewmodel parametersS </param>
+            <returns>returns updated leave type </returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveTypeRepository.DeleteLeaveType(System.Int32)">
+            <summary>
+            deletes the leaveType
+            </summary>
+            <param name="id">ID used for deleted for the selected type</param>
+            <returns>returns new updated model </returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveTypeRepository.LeaveTypeList">
+            <summary>
+            This provide lisr
+            </summary>
+            <returns>returns updated list</returns>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LeaveTypeRepository.UpdateLeaveType(PresentationLayer.ViewModels.LeaveTypeViewModel,System.Int32)">
+            <summary>
+            updates the LeaveType
+            </summary>
+            <param name="model">it is the view model params</param>
+            <param name="id">it takes id for update </param>
+            <returns>returns update informations</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="T:BusinessLayer.Repositories.LoginRepository">
+            <summary>
+            Provides methods for user authentication and token generation.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LoginRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper,BusinessLayer.Middleware.Authentication)">
+            <summary>
+            used for injection
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations</param>
+            <param name="mapper">The mapper for object-object mapping</param>
+            <param name="middleware">Used for authentication</param>
+        </member>
+        <member name="M:BusinessLayer.Repositories.LoginRepository.Login(DomainLayer.ViewModels.LoginViewModel)">
+            <summary>
+            for login 
+            </summary>
+            <param name="login">takes the view model for parameterS</param>
+            <returns>updated model</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:BusinessLayer.Repositories.RegisterRepository">
+            <summary>
+            Provides methods for user registration.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Repositories.RegisterRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BusinessLayer.Repositories.RegisterRepository"/> class.
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations.</param>
+            <param name="mapper">The mapper for object-object mapping.</param>
+            <param name="httpContextAccessor">The HTTP context accessor to get the current user.</param>
+        </member>
+        <member name="M:BusinessLayer.Repositories.RegisterRepository.Register(DomainLayer.ViewModels.RegisterViewModel)">
+            <summary>
+            Registers a new user.
+            </summary>
+            <param name="register">The register view model containing user details.</param>
+            <returns>The registered employee entity.</returns>
+            <exception cref="T:System.Exception">Thrown when the user already exists or the CreatedBy field is null or empty.</exception>
+        </member>
+        <member name="T:BusinessLayer.Services.NotificationService">
+            <summary>
+            Provides service methods for managing notifications.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.Services.NotificationService.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BusinessLayer.Services.NotificationService"/> class.
+            </summary>
+            <param name="unitOfWork">The unit of work for data access operations.</param>
+            <param name="mapper">The mapper for object-object mapping.</param>
+        </member>
+        <member name="M:BusinessLayer.Services.NotificationService.AddNotification(System.Int32,System.String)">
+            <summary>
+            Adds a notification for a specific employee.
+            </summary>
+            <param name="employeeId">The identifier of the employee.</param>
+            <param name="message">The notification message.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BusinessLayer.Services.NotificationService.GetNotifications(System.Int32)">
+            <summary>
+            Retrieves notifications for a specific employee.
+            </summary>
+            <param name="employeeId">The identifier of the employee.</param>
+            <returns>A collection of notification view models.</returns>
+        </member>
+        <member name="M:BusinessLayer.Services.NotificationService.MarkAsRead(System.Int32)">
+            <summary>
+            Marks a notification as read.
+            </summary>
+            <param name="notificationId">The identifier of the notification to mark as read.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BusinessLayer.SwaggerService.Swagger">
+            <summary>
+            Extension methods for configuring Swagger middleware.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.SwaggerService.Swagger.UseCustomSwagger(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds Swagger middleware to the specified <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/>.
+            </summary>
+            <param name="app">The application builder to which Swagger middleware will be added.</param>
+            <returns>The updated application builder.</returns>
+        </member>
+        <member name="T:BusinessLayer.SwaggerService.SwaggerExtensions">
+            <summary>
+            Extension methods for configuring Swagger services.
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.SwaggerService.SwaggerExtensions.AddCustomSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds Swagger services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services">The service collection to which Swagger services will be added.</param>
+            <returns>The updated service collection.</returns>
+        </member>
+        <member name="M:DomainLayer.DBSeeding.DbInitializer.Seed(DomainLayer.Data.LeaveDbContext)">
+            <summary>
+            Seeds the database with initial data if it is empty.
+            </summary>
+            <param name="context">The database context to seed.</param>
+        </member>
+        <member name="M:DomainLayer.DBSeeding.DbInitializerExtension.DbSeed(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Extension method to seed the database.
+            </summary>
+            <param name="app">The application builder instance.</param>
+            <returns>The application builder instance.</returns>
+        </member>
+    </members>
+</doc>

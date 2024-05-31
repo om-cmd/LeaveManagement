@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LeaveManagement</name>
+    </assembly>
+    <members>
+        <member name="T:LeaveManagement.Controllers.CalanderController">
+            <summary>
+            API controller for managing holiday calendar entries.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.CalanderController.#ctor(DomainLayer.Interface.IService.ICalanerService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LeaveManagement.Controllers.CalanderController"/> class.
+            </summary>
+            <param name="calanerService">The calendar service.</param>
+        </member>
+        <member name="M:LeaveManagement.Controllers.CalanderController.CalanderList">
+            <summary>
+            Retrieves a list of public holidays from the calendar.
+            </summary>
+            <returns>A list of public holidays.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.CalanderController.GetHoliday(System.Int32)">
+            <summary>
+            Retrieves details of a specific holiday by its identifier.
+            </summary>
+            <param name="id">The identifier of the holiday.</param>
+            <returns>The holiday details.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.CalanderController.AddHoliday(PresentationLayer.ViewModels.CalanderViewModel)">
+            <summary>
+            Adds a new holiday to the calendar.
+            </summary>
+            <param name="holidayViewModel">The holiday view model to add.</param>
+            <returns>The added holiday.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.CalanderController.RemoveHoliday(System.Int32)">
+            <summary>
+            Removes a holiday from the calendar.
+            </summary>
+            <param name="id">The identifier of the holiday to remove.</param>
+            <returns>The removed holiday.</returns>
+        </member>
+        <member name="T:LeaveManagement.Controllers.EmployeeController">
+            <summary>
+            provides the methods to manage employe and their details
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.EmployeeController.EmployeeList">
+            <summary>
+            it is the method to get the list of employee
+            </summary>
+            <returns>returns employee by searching form the employee table which status are active or not deleted </returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.EmployeeController.UpdateEmployee(PresentationLayer.VIewModels.EmployeeViewModel,System.Int32)">
+            <summary>
+            used to update the existing employee
+            </summary>
+            <param name="model">The employee view model containing updated information </param>
+            <param name="id">The identifier of the employee to update</param>
+            <returns>The updated employee entity, or null if the employee was not found.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.EmployeeController.DeleteEmployee(System.Int32)">
+            <summary>
+            this is used for deleting the emoloyee
+            </summary>
+            <param name="id">it takes id as paramter to delete the id of employee</param>
+            <returns></returns>
+        </member>
+        <member name="T:LeaveManagement.Controllers.LeaveApplyController">
+            <summary>
+            Provides methods to apply for leave and manage leave applications.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveApplyController.#ctor(DomainLayer.Interface.IService.ILeaveApplyService)">
+            <summary>
+            used to inject the service
+            </summary>
+            <param name="leaveApply"> this is the leaveApply service</param>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveApplyController.GetLeaveApplyList">
+            <summary>
+            Retrieves a list of all leave applications.
+            </summary>
+            <returns>A collection of leave application view models.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveApplyController.CreateLeaveApplication(PresentationLayer.ViewModels.LeaveApplyViewModel)">
+            <summary>
+            Creates a new leave application.
+            </summary>
+            <param name="model">The leave application view model.</param>
+            <returns>The created leave application entity.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the employee is not found.</exception>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveApplyController.UpdateLeaveApplication(System.Int32,PresentationLayer.ViewModels.LeaveApplyViewModel)">
+            <summary>
+            Updates an existing leave application.
+            </summary>
+            <param name="id">The identifier of the leave application to update.</param>
+            <param name="model">The leave application view model containing updated information.</param>
+            <returns>The updated leave application entity, or null if not found.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveApplyController.DeleteLeaveApplication(System.Int32)">
+            <summary>
+            Deletes a leave application.
+            </summary>
+            <param name="id">The identifier of the leave application.</param>
+            <returns>The deleted leave application view model, or null if not found.</returns>
+        </member>
+        <member name="T:LeaveManagement.Controllers.LeaveBalanceController">
+            <summary>
+            Provides methods to calculate and retrieve leave balance information.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveBalanceController.#ctor(DomainLayer.Interface.IService.ILeaveBalanceService)">
+            <summary>
+            use to call service of balance
+            </summary>
+            <param name="leaveBalanceService"></param>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveBalanceController.LeaveBalanceList">
+            <summary>
+            Retrieves the leave balance for the current year.
+            </summary>
+            <returns>The leave balance for the current year.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveBalanceController.CalculateLeave(PresentationLayer.ViewModels.LeaveCalculationRequest)">
+            <summary>
+            Calculates the leave balance for an employee based on their position and leave usage.
+            </summary>
+            <param name="request">The leave calculation request containing employee ID.</param>
+            <returns>The calculated or updated leave balance.</returns>
+        </member>
+        <member name="T:LeaveManagement.Controllers.LeaveTypeController">
+            <summary>
+            Provides methods to manage leave types.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveTypeController.#ctor(DomainLayer.Interface.IService.ILeaveTypeService)">
+            <summary>
+            use to call leaveType Service
+            </summary>
+            <param name="leaveType"></param>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveTypeController.LeaveTypeList">
+            <summary>
+            Retrieves a list of all leave types.
+            </summary>
+            <returns>A collection of leave type view models.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveTypeController.CreateLeaveType(PresentationLayer.ViewModels.LeaveTypeViewModel)">
+            <summary>
+            Creates a new leave type.
+            </summary>
+            <param name="model">The leave type view model.</param>
+            <returns>The created leave type entity.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveTypeController.UpdateLeaveType(PresentationLayer.ViewModels.LeaveTypeViewModel,System.Int32)">
+            <summary>
+            Updates an existing leave type.
+            </summary>
+            <param name="model">The leave type view model containing updated information.</param>
+            <param name="id">The identifier of the leave type to update.</param>
+            <returns>The updated leave type entity.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Thrown when the leave type with the specified ID is not found.</exception>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveTypeController.DeleteLeaveType(System.Int32)">
+            <summary>
+            Deletes a leave type by marking it as leave.
+            </summary>
+            <param name="id">The identifier of the leave type to delete.</param>
+            <returns>The deleted leave type view model.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Thrown when the leave type with the specified ID is not found.</exception>
+        </member>
+        <member name="T:LeaveManagement.Controllers.LoginController">
+            <summary>
+            Provides methods for user authentication and token generation.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LoginController.#ctor(DomainLayer.Interface.IService.ILoginService)">
+            <summary>
+            use for login Service
+            </summary>
+            <param name="loginService"></param>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LoginController.Login(DomainLayer.ViewModels.LoginViewModel)">
+            <summary>
+            Authenticates a user and generates JWT tokens.
+            </summary>
+            <param name="login">The login view model containing username and password.</param>
+            <returns>The generated JWT tokens.</returns>
+            <exception cref="T:System.Exception">Thrown when the username and password do not match.</exception>
+        </member>
+        <member name="T:LeaveManagement.Controllers.RegisterController">
+            <summary>
+            Provides methods for user registration.
+            </summary>
+        </member>
+        <member name="M:LeaveManagement.Controllers.RegisterController.#ctor(DomainLayer.Interface.IService.IRegisterService)">
+            <summary>
+            Used to get the register serivce
+            </summary>
+            <param name="registered">use to call the service</param>
+        </member>
+        <member name="M:LeaveManagement.Controllers.RegisterController.Register(DomainLayer.ViewModels.RegisterViewModel)">
+            <summary>
+            Registers a new user.
+            </summary>
+            <param name="register">The register view model containing user details.</param>
+            <returns>The registered employee entity.</returns>
+            <exception cref="T:System.Exception">Thrown when the user already exists or the CreatedBy field is null or empty.</exception>
+        </member>
+    </members>
+</doc>

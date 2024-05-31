@@ -19,6 +19,7 @@ namespace BusinessLayer.IService
         /// </remarks>
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddTransient<ICalanerService, CalanderService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ILeaveApplyService, LeaveApplyService>();
             services.AddScoped<ILeaveBalanceService, LeaveBalanceService>();
