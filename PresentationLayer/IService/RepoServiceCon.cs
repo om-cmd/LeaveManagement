@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Repositories;
+using DomainLayer.Interface.IRepo;
 using DomainLayer.IRepoInterface.IRepo;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +20,7 @@ namespace BusinessLayer.RepoService
         /// </remarks>
         public static IServiceCollection Repository(this IServiceCollection services)
         {
+            services.AddTransient<IEmailRepo, EmailSender>();
             services.AddScoped<ICalanderRepo, CalanderRepository>();
             services.AddScoped<IEmployeeRepo, EmployeeReposotory>();
             services.AddScoped<ILeaveApplyRepo, LeaveApplyRepository>();

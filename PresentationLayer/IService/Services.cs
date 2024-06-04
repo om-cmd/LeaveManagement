@@ -27,6 +27,8 @@ namespace BusinessLayer.IService
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddTransient<OtpService>();
+            services.AddTransient<UserService>();
 
             return services;
         }

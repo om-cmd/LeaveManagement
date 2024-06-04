@@ -11,5 +11,8 @@ namespace DomainLayer.ViewModels
         [Required]
         [ValidatePassword]
         public string Password { get; set; }
+        [Required]
+        public string Captcha { get; set; }
+
     }
 }

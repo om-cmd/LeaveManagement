@@ -21,7 +21,16 @@ namespace LeaveManagement.Models
         public DateTime DateOfBirth { get; set; }
         public Position Position { get; set; }
         public Roles Roles { get; set; }
-        public string CreatedBy { get; set; } 
+        public string CreatedBy { get; set; }
+
+        public bool EmailConfirmed { get; set; } = false;
+
+        public string EmailConfirmationToken { get; set; }
+
+        // For password reset
+        public string PasswordResetToken { get; set; }
+
+        public DateTime? PasswordResetTokenExpiry { get; set; }
 
     }
     public enum Gender

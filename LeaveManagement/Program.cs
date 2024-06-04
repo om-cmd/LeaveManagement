@@ -4,6 +4,7 @@ using BusinessLayer.Extensions;
 using BusinessLayer.IService;
 using BusinessLayer.Middleware;
 using BusinessLayer.RepoService;
+using BusinessLayer.Repositories;
 using BusinessLayer.SwaggerService;
 using DomainLayer.DBSeeding;
 using LeaveManagement.AutoMapperProfile;
@@ -17,6 +18,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Db configuration
 builder.Services.AddCustomDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+//configure captcha generator and session
+builder.Services.AddSingleton<CaptchaGenerator>();
+
+//builder.Services.AddControllers(); yo chai mvc vayeko bela matrea ho 
+
+builder.Services.AddSession();
 
 
 //autghentication ko ploicy configure haneko  authenticaton
@@ -48,7 +56,7 @@ builder.Services.AddUnitOfWork();
 //dbSeed Initializer
 builder.Services.AddDbInitializer();
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
@@ -59,11 +67,12 @@ if (app.Environment.IsDevelopment())
     app.UseCustomSwagger();
 
 }
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+app.UseSession();
+
 //global exception handler 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 

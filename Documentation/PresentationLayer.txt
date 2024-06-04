@@ -211,5 +211,17 @@
             <returns>The registered employee entity.</returns>
             <exception cref="T:System.Exception">Thrown when the user already exists or the CreatedBy field is null or empty.</exception>
         </member>
+        <member name="M:CaptchaController.#ctor(DomainLayer.Interface.IService.ICaptchaService)">
+            <summary>
+            use to cretae captcha and check it
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:CaptchaController.GetCaptcha">
+            <summary>
+            captcha getting controller
+            </summary>
+            <returns>it returns the captcha </returns>
+        </member>
     </members>
 </doc>

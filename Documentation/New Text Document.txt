@@ -196,6 +196,18 @@
             <param name="id">The identifier of the holiday to remove.</param>
             <returns>The removed holiday view model.</returns>
         </member>
+        <member name="T:BusinessLayer.Repositories.CaptchaGenerator">
+            <summary>
+            captcha generator and sender to client
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:BusinessLayer.Repositories.CaptchaGenerator.GetCaptcha" -->
+        <member name="M:BusinessLayer.Repositories.CaptchaGenerator.GenerateCaptcha">
+            <summary>
+            generate captcha using graphic 
+            </summary>
+            <returns>Generated captch</returns>
+        </member>
         <member name="T:BusinessLayer.Repositories.EmployeeReposotory">
             <summary>
             used to manage employee
@@ -332,19 +344,20 @@
             Provides methods for user authentication and token generation.
             </summary>
         </member>
-        <member name="M:BusinessLayer.Repositories.LoginRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper,BusinessLayer.Middleware.Authentication)">
+        <member name="M:BusinessLayer.Repositories.LoginRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork,AutoMapper.IMapper,BusinessLayer.Middleware.Authentication,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             used for injection
             </summary>
             <param name="unitOfWork">The unit of work for data access operations</param>
             <param name="mapper">The mapper for object-object mapping</param>
             <param name="middleware">Used for authentication</param>
+            <param name="httpContextAccessor">Accessor for HTTP context</param>
         </member>
         <member name="M:BusinessLayer.Repositories.LoginRepository.Login(DomainLayer.ViewModels.LoginViewModel)">
             <summary>
             for login 
             </summary>
-            <param name="login">takes the view model for parameterS</param>
+            <param name="login">takes the view model for parameters</param>
             <returns>updated model</returns>
             <exception cref="T:System.Exception"></exception>
         </member>
@@ -439,6 +452,55 @@
             </summary>
             <param name="app">The application builder instance.</param>
             <returns>The application builder instance.</returns>
+        </member>
+        <member name="F:EmailSender._sendGridApiKey">
+            <summary>
+            this is for emial sending and otp service genration
+            </summary>
+        </member>
+        <member name="M:EmailSender.SendEmailAsync(System.String,System.String,System.String)">
+            <summary>
+            this send the email to the particular mail for reset
+            </summary>
+            <param name="email">thuus is email </param>
+            <param name="subject">subject for email</param>
+            <param name="message">meassage of emial </param>
+            <returns>sends email</returns>
+            <exception cref="T:System.Exception">if the email sned failed</exception>
+        </member>
+        <member name="T:OtpService">
+            <summary>
+            generated otp for sendoing though email user service
+            </summary>
+        </member>
+        <member name="F:UserService._context">
+            <summary>
+            impelementation of  password reset sending servive using send grid
+            </summary>
+        </member>
+        <member name="M:UserService.SendPasswordResetOtpAsync(System.String)">
+            <summary>
+            this send the password reste otp to email 
+            </summary>
+            <param name="email"> this takes the email</param>
+            <returns>email format</returns>
+            <exception cref="T:System.Exception"> if user mail not found</exception>
+        </member>
+        <member name="M:UserService.VerifyOtpAsync(System.String,System.String)">
+            <summary>
+            this verfy the otp from the mail
+            </summary>
+            <param name="email"> use email of user</param>
+            <param name="otp"> for opotional </param>
+            <returns></returns>
+        </member>
+        <member name="M:UserService.ResetPasswordAsync(DomainLayer.ViewModels.ResetPasswordModel)">
+            <summary>
+            this reset the password and save it as hash 
+            </summary>
+            <param name="reset">this take viewmodel pasrameter </param>
+            <returns>save password</returns>
+            <exception cref="T:System.Exception">if user is not found</exception>
         </member>
     </members>
 </doc>

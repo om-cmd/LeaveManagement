@@ -22,7 +22,8 @@ namespace DomainLayer.ViewModels
         public Position Position { get; set; }
         public DateTime JoinedDate { get; set; } = DateTime.Now;
 
-        public Roles Roles { get; set; }    
+        public Roles Roles { get; set; }
+
 
     }
 }
