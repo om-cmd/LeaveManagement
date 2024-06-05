@@ -28,6 +28,7 @@ namespace BusinessLayer.RepoService
             services.AddScoped<ILeaveTypeRepo, LeaveTypeRepository>();
             services.AddScoped<ILoginRepo, LoginRepository>();
             services.AddScoped<IRegisterRepo, RegisterRepository>();
+            services.AddScoped<ICaptchaRepo, CaptchaGenerator>();
             return services;
         }
     }

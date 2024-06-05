@@ -13,6 +13,8 @@ namespace LeaveManagement.Models
         public string Name { get; set; }
         public bool IsLeave { get; set; }
         public ICollection<LeaveApply> LeaveApply { get; set; }
+        public ICollection<LeaveType> LeaveTypes { get; set; }
+
 
 
     }

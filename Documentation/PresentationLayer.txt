@@ -4,6 +4,38 @@
         <name>LeaveManagement</name>
     </assembly>
     <members>
+        <member name="T:YourNamespace.Controllers.AccountController">
+            <summary>
+            Controller for managing user accounts and passwords.
+            </summary>
+        </member>
+        <member name="M:YourNamespace.Controllers.AccountController.#ctor(UserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:YourNamespace.Controllers.AccountController"/> class.
+            </summary>
+            <param name="userService">The user service.</param>
+        </member>
+        <member name="M:YourNamespace.Controllers.AccountController.SendPasswordResetOtp(DomainLayer.ViewModels.SendOtpModel)">
+            <summary>
+            Sends a password reset OTP to the user's email.
+            </summary>
+            <param name="model">The model containing the user's email.</param>
+            <returns>A message indicating the success of the operation.</returns>
+        </member>
+        <member name="M:YourNamespace.Controllers.AccountController.VerifyOtp(DomainLayer.ViewModels.VerifyOtpModel)">
+            <summary>
+            Verifies the OTP sent to the user's email for password reset.
+            </summary>
+            <param name="model">The model containing the user's email and OTP.</param>
+            <returns>A message indicating the success of the operation or an error message if the OTP is invalid.</returns>
+        </member>
+        <member name="M:YourNamespace.Controllers.AccountController.ResetPassword(DomainLayer.ViewModels.ResetPasswordModel)">
+            <summary>
+            Resets the user's password.
+            </summary>
+            <param name="model">The model containing the user's email and new password.</param>
+            <returns>A message indicating the success of the operation.</returns>
+        </member>
         <member name="T:LeaveManagement.Controllers.CalanderController">
             <summary>
             API controller for managing holiday calendar entries.
@@ -100,6 +132,14 @@
             <param name="id">The identifier of the leave application to update.</param>
             <param name="model">The leave application view model containing updated information.</param>
             <returns>The updated leave application entity, or null if not found.</returns>
+        </member>
+        <member name="M:LeaveManagement.Controllers.LeaveApplyController.UpdateLeaveApplicationStatusAsync(System.Int32,DomainLayer.Models.ApprovalStatus)">
+            <summary>
+            for updating the status
+            </summary>
+            <param name="id">take the id of the applied leave</param>
+            <param name="status">update the status</param>
+            <returns></returns>
         </member>
         <member name="M:LeaveManagement.Controllers.LeaveApplyController.DeleteLeaveApplication(System.Int32)">
             <summary>

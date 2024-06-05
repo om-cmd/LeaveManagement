@@ -3,13 +3,11 @@ using DomainLayer.AcessLayer;
 using DomainLayer.Interface.IService;
 using DomainLayer.IRepoInterface.IRepo;
 using DomainLayer.Models;
-using LeaveManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using PresentationLayer.ViewModels;
 
 namespace BusinessLayer.Repositories
 {
-   
     public class LeaveApplyRepository : ILeaveApplyRepo
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -19,16 +17,23 @@ namespace BusinessLayer.Repositories
 
         public LeaveApplyRepository(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService, ILeaveBalanceRepo leaveBalanceRepo)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _notificationService = notificationService;
-            _leaveBalanceRepo = leaveBalanceRepo;
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+            _leaveBalanceRepo = leaveBalanceRepo ?? throw new ArgumentNullException(nameof(leaveBalanceRepo));
         }
 
-     
+        /// <summary>
+        /// Creates a new leave application.
+        /// </summary>
+        /// <param name="model">The leave application view model.</param>
+        /// <returns>The created leave application entity.</returns>
+        /// <exception cref="ArgumentException">Thrown when the employee is not found.</exception>
         public LeaveApply CreateLeaveApplication(LeaveApplyViewModel model)
         {
-            Employee employee = _unitOfWork.Context.Employee.Find(model.EmployeeID);
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            var employee = _unitOfWork.Context.Employee.Find(model.EmployeeID);
             if (employee == null)
             {
                 throw new ArgumentException("Employee not found");
@@ -40,7 +45,15 @@ namespace BusinessLayer.Repositories
             _unitOfWork.Context.SaveChanges();
 
             // Invoke leave balance calculation
-            _leaveBalanceRepo.CalculateLeave(new LeaveCalculationRequest { EmployeeID = model.EmployeeID });
+            _leaveBalanceRepo.CalculateLeave(new LeaveCalculationRequest
+            {
+                EmployeeID = model.EmployeeID,
+                LeaveTypeId = model.LeaveTypeID,
+                AppliedFromDate = model.AppliedFromDate,
+                AppliedToDate = model.AppliedToDate,
+                
+               
+            });
 
             return leaveApplication;
         }
@@ -64,11 +77,16 @@ namespace BusinessLayer.Repositories
             await _unitOfWork.Context.SaveChangesAsync();
 
             string message = status == ApprovalStatus.Approved ? "Your leave request has been approved." : "Your leave request has been rejected.";
-            await _notificationService.AddNotification(leaveApplication.EmployeeId, message);
+            _notificationService.AddNotification(leaveApplication.EmployeeId, message);
 
             return leaveApplication;
         }
 
+        /// <summary>
+        /// Deletes a leave application by its identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the leave application.</param>
+        /// <returns>The deleted leave application view model, or null if not found.</returns>
         public LeaveApplyViewModel DeleteLeaveApplication(int id)
         {
             var leaveApplication = _unitOfWork.Context.LeaveApply.Find(id);
@@ -96,7 +114,10 @@ namespace BusinessLayer.Repositories
             return _mapper.Map<LeaveApplyViewModel>(leaveApplication);
         }
 
-      
+        /// <summary>
+        /// Gets the list of all leave applications.
+        /// </summary>
+        /// <returns>A collection of leave application view models.</returns>
         public ICollection<LeaveApplyViewModel> GetLeaveApplyList()
         {
             var leaveApplications = _unitOfWork.Context.LeaveApply
@@ -106,9 +127,16 @@ namespace BusinessLayer.Repositories
             return _mapper.Map<List<LeaveApplyViewModel>>(leaveApplications);
         }
 
-       
+        /// <summary>
+        /// Updates a leave application.
+        /// </summary>
+        /// <param name="id">The identifier of the leave application.</param>
+        /// <param name="model">The leave application view model.</param>
+        /// <returns>The updated leave application entity, or null if not found.</returns>
         public LeaveApply UpdateLeaveApplication(int id, LeaveApplyViewModel model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
             var leaveApplication = _unitOfWork.Context.LeaveApply.Find(id);
             if (leaveApplication == null)
             {

@@ -7,6 +7,8 @@ namespace PresentationLayer.ViewModels
     {
         public int EmployeeID { get; set; }
         public int LeaveTypeID { get; set; }
+
+        
         public bool LeaveApplyEnabled { get; set; }
         public string LeaveApplyDescription { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using DomainLayer.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace LeaveManagement.Models
 {
@@ -7,6 +8,8 @@ namespace LeaveManagement.Models
     /// </summary>
     public class Employee : Person
     {
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiry { get; set; }
         public Status Status { get; set; }
         public DateTime? LeftDate { get; set; }
         public ICollection<LeaveBalance> LeaveBalances { get; set; }

@@ -1,6 +1,4 @@
-﻿using BusinessLayer.AttributeValidations;
-
-namespace DomainLayer.ViewModels
+﻿namespace DomainLayer.ViewModels
 {
     public class RegisterViewModel : PersonBaseModel
     {       

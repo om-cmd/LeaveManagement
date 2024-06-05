@@ -1,4 +1,5 @@
 ﻿using DomainLayer.Interface.IService;
+using DomainLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.ViewModels;
@@ -73,7 +74,32 @@ namespace LeaveManagement.Controllers
             }
             return Ok(updateLeave);
         }
-
+        /// <summary>
+        /// for updating the status
+        /// </summary>
+        /// <param name="id">take the id of the applied leave</param>
+        /// <param name="status">update the status</param>
+        /// <returns></returns>
+        [HttpPut("updateStatus")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> UpdateLeaveApplicationStatusAsync(int id, ApprovalStatus status)
+        {
+            try
+            {
+                var updateStatus = await _leaveApply.UpdateLeaveApplicationStatusAsync(id, status);
+                if (updateStatus == null)
+                {
+                    return NotFound();
+                }
+                return Ok(updateStatus);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         /// <summary>
         /// Deletes a leave application.

@@ -182,9 +182,9 @@
             <inheritdoc />
         </member>
         <member name="T:DomainLayer.Models.LeaveApply">
-             <summary>
-            This is the leaveApply model 
-             </summary>
+            <summary>
+            This is the LeaveApply model.
+            </summary>
         </member>
         <member name="T:DomainLayer.Models.Notification">
             <summary>
@@ -264,7 +264,7 @@
         </member>
         <member name="T:LeaveManagement.Models.LeaveBalance">
             <summary>
-            this is the LeaveBalance model 
+            This is the LeaveBalance model.
             </summary>
         </member>
         <member name="T:LeaveManagement.Models.LeaveType">

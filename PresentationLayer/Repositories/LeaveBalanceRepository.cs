@@ -5,109 +5,116 @@ using LeaveManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using PresentationLayer.ViewModels;
 
-namespace BusinessLayer.Repositories
-{/// <summary>
-/// to Calculate leave avaialable or check the information 
-/// </summary>
- 
-    public class LeaveBalanceRepository : ILeaveBalanceRepo
+public class LeaveBalanceRepository : ILeaveBalanceRepo
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    public LeaveBalanceRepository(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
+        _unitOfWork = unitOfWork;
+    }
 
-        /// <summary>
-        /// injection of unitof work 
-        /// </summary>
-        /// <param name="unitOfWork">The unit of work for data access operations</param>
-        public LeaveBalanceRepository(IUnitOfWork unitOfWork)
+    public LeaveBalance CalculateLeave(LeaveCalculationRequest request)
+    {
+        // Retrieve employee information based on the provided employee ID
+        var employee = _unitOfWork.Context.Employee.FirstOrDefault(e => e.Id == request.EmployeeID);
+        if (employee == null)
         {
-            _unitOfWork = unitOfWork;
+            throw new ArgumentException("Employee not found");
         }
 
-       /// <summary>
-       /// calculates the leave informations
-       /// </summary>
-       /// <param name="request">takes the view model params for calculations</param>
-       /// <returns></returns>
-        public LeaveBalance CalculateLeave(LeaveCalculationRequest request)
+        // Ensure LeaveType exists
+        var leaveType = _unitOfWork.Context.LeaveType.FirstOrDefault(e => e.Id == request.LeaveTypeId);
+        if (leaveType == null)
         {
-            // Retrieve employee information based on the provided employee ID
-            Employee employee = _unitOfWork.Context.Employee.FirstOrDefault(e => e.Id == request.EmployeeID);
-            if (employee == null)
-            {
-                return null;
-            }
-
-            // Get the position of the employee
-            Position position = employee.Position;
-
-            // Determine the total leave allotted based on the employee's position
-            int totalLeaveAllotted = GetTotalLeaveAllotted(position);
-
-            // Retrieve the leave balance for the current year
-            LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance.FirstOrDefault(lb => lb.PersonId == request.EmployeeID && lb.Year == DateTime.Now.Year);
-            if (leaveBalance == null)
-            {
-                // If no leave balance exists for the current year, create a new one
-                leaveBalance = new LeaveBalance
-                {
-                    PersonId = request.EmployeeID,
-                    RemainingLeave = totalLeaveAllotted,
-                    LastUpdated = DateTime.Now,
-                    Year = DateTime.Now.Year,
-                    AllocatedThisYear = totalLeaveAllotted,
-                    UsedThisYear = 0
-                };
-                _unitOfWork.Context.LeaveBalance.Add(leaveBalance);
-            }
-            else
-            {
-                // If leave balance exists, update the remaining leave
-                leaveBalance.RemainingLeave = totalLeaveAllotted - leaveBalance.UsedThisYear; // Update remaining leave based on used leave
-                leaveBalance.LastUpdated = DateTime.Now;
-                _unitOfWork.Context.LeaveBalance.Update(leaveBalance);
-            }
-
-            _unitOfWork.Context.SaveChanges();
-
-            return leaveBalance; // Return the updated or created leave balance
+            throw new ArgumentException("Leave type not found");
         }
 
-      /// <summary>
-      /// leave balance Sheet
-      /// </summary>
-      /// <returns>the lsit of the employee who have taken leave</returns>
-        public LeaveBalance LeaveBalanceList()
-        {
-            // Retrieve the leave balance for the current year
-            LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance
-                .Include(x => x.Person)
-                .FirstOrDefault(lb => lb.Year == DateTime.Now.Year);
+        // Get the position of the employee
+        Position position = employee.Position;
 
-            return leaveBalance;
+        // Determine the total leave allotted based on the employee's position
+        int totalLeaveAllotted = GetTotalLeaveAllotted(position);
+
+        // Ensure LeaveApply exists for the current leave request
+        LeaveApply leaveApply = new LeaveApply
+        {
+            LeaveApplyEnabled = true,
+            LeaveApplyDescription = "Auto-generated leave application",
+            AppliedFromDate = request.AppliedFromDate,
+            AppliedToDate = request.AppliedToDate,
+            Status = ApprovalStatus.Pending,
+            EmployeeId = request.EmployeeID,
+            LeaveTypeId = request.LeaveTypeId // Assuming LeaveTypeID is part of the request
+        };
+        _unitOfWork.Context.LeaveApply.Add(leaveApply);
+        _unitOfWork.Context.SaveChanges();
+
+        // Retrieve the leave balance for the current year
+        LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance.FirstOrDefault(lb => lb.PersonId == request.EmployeeID && lb.Year == DateTime.Now.Year);
+        if (leaveBalance == null)
+        {
+            // If no leave balance exists for the current year, create a new one
+            leaveBalance = new LeaveBalance
+            {
+                PersonId = request.EmployeeID,
+                RemainingLeave = totalLeaveAllotted,
+                LastUpdated = DateTime.Now,
+                Year = DateTime.Now.Year,
+                AllocatedThisYear = totalLeaveAllotted,
+                UsedThisYear = 0,
+                LeaveApplyId = leaveApply.Id,
+                LeaveTypeId = request.LeaveTypeId // Link to the created LeaveApply and LeaveType
+            };
+            _unitOfWork.Context.LeaveBalance.Add(leaveBalance);
+        }
+        else
+        {
+            // If leave balance exists, update the remaining leave
+            leaveBalance.RemainingLeave = totalLeaveAllotted - leaveBalance.UsedThisYear;
+            leaveBalance.LastUpdated = DateTime.Now;
+            leaveBalance.LeaveApplyId = leaveApply.Id; // Update the LeaveApplyId
+            leaveBalance.LeaveTypeId = request.LeaveTypeId; // Ensure LeaveTypeId is updated
+            _unitOfWork.Context.LeaveBalance.Update(leaveBalance);
         }
 
-        /// <summary>
-        /// Determines the total leave allotted based on the position.
-        /// </summary>
-        /// <param name="position">The position of the employee.</param>
-        /// <returns>The total leave allotted for the position.</returns>
-        /// <exception cref="ArgumentException">Thrown when an invalid position is provided.</exception>
-        private int GetTotalLeaveAllotted(Position position)
+        _unitOfWork.Context.SaveChanges();
+
+        return leaveBalance;
+    }
+
+    public LeaveBalance LeaveBalanceList()
+    {
+        // Retrieve the leave balance for the current year
+        LeaveBalance leaveBalance = _unitOfWork.Context.LeaveBalance
+            .Include(x => x.Person)
+            .FirstOrDefault(lb => lb.Year == DateTime.Now.Year);
+
+        return leaveBalance;
+    }
+
+    private int GetTotalLeaveAllotted(Position position)
+    {
+        switch (position)
         {
-            // Determine the total leave allotted based on the position
-            switch (position)
-            {
-                case Position.Intern:
-                    return 10; // For example, interns get 10 days of leave
-                case Position.Trainee:
-                    return 15; // For example, trainees get 15 days of leave
-                case Position.Junior:
-                    return 20; // For example, juniors get 20 days of leave
-                case Position.Senior:
-                    return 25; // For example, seniors get 25 days of leave
-                default:
-                    throw new ArgumentException("Invalid position");
-            }
+            case Position.TechnicalLead:
+                return 30;
+            case Position.ProjectManager:
+                return 30;
+            case Position.ProductManager:
+                return 30;
+            case Position.Intern:
+                return 10;
+            case Position.Trainee:
+                return 15;
+            case Position.Junior:
+                return 20;
+            case Position.Senior:
+                return 25;
+            case Position.HRManager:
+                return 30;
+            default:
+                throw new ArgumentException("Invalid position");
         }
     }
 }

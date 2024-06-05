@@ -9,6 +9,7 @@ namespace BusinessLayer.Services
     public class LeaveApplyService : ILeaveApplyService
     {
         private readonly ILeaveApplyRepo _apply;
+
         public LeaveApplyService(ILeaveApplyRepo apply)
         {
             _apply = apply;
@@ -38,5 +39,11 @@ namespace BusinessLayer.Services
         {
             return _apply.UpdateLeaveApplication(id, model);
         }
+
+        public Task <LeaveApply> UpdateLeaveApplicationStatusAsync(int id, ApprovalStatus status)
+        {
+            return _apply.UpdateLeaveApplicationStatusAsync(id, status);
+        }
+
     }
 }

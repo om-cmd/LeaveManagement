@@ -157,6 +157,12 @@ namespace DomainLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PasswordResetTokenExpiry")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -199,6 +205,9 @@ namespace DomainLayer.Migrations
                     b.Property<int>("LeaveDaysApplied")
                         .HasColumnType("int");
 
+                    b.Property<int>("LeaveTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
@@ -214,6 +223,8 @@ namespace DomainLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LeaveApplyId");
+
+                    b.HasIndex("LeaveTypeId");
 
                     b.HasIndex("PersonId");
 
@@ -231,12 +242,17 @@ namespace DomainLayer.Migrations
                     b.Property<bool>("IsLeave")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("LeaveTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LeaveTypeId");
 
                     b.ToTable("DTbl_LeaveTypes", (string)null);
                 });
@@ -273,6 +289,12 @@ namespace DomainLayer.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PasswordResetTokenExpiry")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -331,6 +353,12 @@ namespace DomainLayer.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("LeaveManagement.Models.LeaveType", "LeaveType")
+                        .WithMany()
+                        .HasForeignKey("LeaveTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LeaveManagement.Models.Employee", "Person")
                         .WithMany("LeaveBalances")
                         .HasForeignKey("PersonId")
@@ -339,7 +367,16 @@ namespace DomainLayer.Migrations
 
                     b.Navigation("LeaveApply");
 
+                    b.Navigation("LeaveType");
+
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("LeaveManagement.Models.LeaveType", b =>
+                {
+                    b.HasOne("LeaveManagement.Models.LeaveType", null)
+                        .WithMany("LeaveTypes")
+                        .HasForeignKey("LeaveTypeId");
                 });
 
             modelBuilder.Entity("DomainLayer.Models.LeaveApply", b =>
@@ -359,6 +396,8 @@ namespace DomainLayer.Migrations
             modelBuilder.Entity("LeaveManagement.Models.LeaveType", b =>
                 {
                     b.Navigation("LeaveApply");
+
+                    b.Navigation("LeaveTypes");
                 });
 #pragma warning restore 612, 618
         }

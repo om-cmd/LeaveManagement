@@ -9,6 +9,8 @@ namespace LeaveManagement.Models
     /// </summary>
     public class User : Person
     {
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiry { get; set; }
 
     }
 }

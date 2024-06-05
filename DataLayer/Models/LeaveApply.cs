@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using LeaveManagement.Models;
 using System.ComponentModel.DataAnnotations.Schema;
-using LeaveManagement.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace DomainLayer.Models
 {
     /// <summary>
-    ///This is the leaveApply model 
+    /// This is the LeaveApply model.
     /// </summary>
     public class LeaveApply
     {
@@ -21,7 +20,7 @@ namespace DomainLayer.Models
 
         public DateTime AppliedToDate { get; set; }
 
-       public ApprovalStatus Status { get; set; }
+        public ApprovalStatus Status { get; set; }
 
         [ForeignKey(nameof(Employee))]
         public int EmployeeId { get; set; }
@@ -31,6 +30,6 @@ namespace DomainLayer.Models
         public int LeaveTypeId { get; set; }
         public LeaveType LeaveType { get; set; }
 
-        public ICollection<LeaveBalance> LeaveBalances { get; set;}
+        public ICollection<LeaveBalance> LeaveBalances { get; set; }
     }
 }

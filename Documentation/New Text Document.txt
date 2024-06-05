@@ -249,6 +249,14 @@
             <returns></returns>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
         </member>
+        <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.CreateLeaveApplication(PresentationLayer.ViewModels.LeaveApplyViewModel)">
+            <summary>
+            Creates a new leave application.
+            </summary>
+            <param name="model">The leave application view model.</param>
+            <returns>The created leave application entity.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the employee is not found.</exception>
+        </member>
         <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.UpdateLeaveApplicationStatusAsync(System.Int32,DomainLayer.Models.ApprovalStatus)">
             <summary>
             Updates the status of a leave application asynchronously.
@@ -258,6 +266,13 @@
             <returns>The updated leave application entity.</returns>
             <exception cref="T:System.ArgumentException">Thrown when the leave application is not found.</exception>
         </member>
+        <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.DeleteLeaveApplication(System.Int32)">
+            <summary>
+            Deletes a leave application by its identifier.
+            </summary>
+            <param name="id">The identifier of the leave application.</param>
+            <returns>The deleted leave application view model, or null if not found.</returns>
+        </member>
         <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.GetID(System.Int32)">
             <summary>
             Gets the details of a specific leave application by its identifier.
@@ -265,37 +280,19 @@
             <param name="id">The identifier of the leave application.</param>
             <returns>The leave application view model.</returns>
         </member>
-        <member name="T:BusinessLayer.Repositories.LeaveBalanceRepository">
+        <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.GetLeaveApplyList">
             <summary>
-            to Calculate leave avaialable or check the information 
+            Gets the list of all leave applications.
             </summary>
+            <returns>A collection of leave application view models.</returns>
         </member>
-        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.#ctor(DomainLayer.AcessLayer.IUnitOfWork)">
+        <member name="M:BusinessLayer.Repositories.LeaveApplyRepository.UpdateLeaveApplication(System.Int32,PresentationLayer.ViewModels.LeaveApplyViewModel)">
             <summary>
-            injection of unitof work 
+            Updates a leave application.
             </summary>
-            <param name="unitOfWork">The unit of work for data access operations</param>
-        </member>
-        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.CalculateLeave(PresentationLayer.ViewModels.LeaveCalculationRequest)">
-            <summary>
-            calculates the leave informations
-            </summary>
-            <param name="request">takes the view model params for calculations</param>
-            <returns></returns>
-        </member>
-        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.LeaveBalanceList">
-            <summary>
-            leave balance Sheet
-            </summary>
-            <returns>the lsit of the employee who have taken leave</returns>
-        </member>
-        <member name="M:BusinessLayer.Repositories.LeaveBalanceRepository.GetTotalLeaveAllotted(DomainLayer.Models.Position)">
-            <summary>
-            Determines the total leave allotted based on the position.
-            </summary>
-            <param name="position">The position of the employee.</param>
-            <returns>The total leave allotted for the position.</returns>
-            <exception cref="T:System.ArgumentException">Thrown when an invalid position is provided.</exception>
+            <param name="id">The identifier of the leave application.</param>
+            <param name="model">The leave application view model.</param>
+            <returns>The updated leave application entity, or null if not found.</returns>
         </member>
         <member name="T:BusinessLayer.Repositories.LeaveTypeRepository">
             <summary>
@@ -453,7 +450,7 @@
             <param name="app">The application builder instance.</param>
             <returns>The application builder instance.</returns>
         </member>
-        <member name="F:EmailSender._sendGridApiKey">
+        <member name="M:EmailSender.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             this is for emial sending and otp service genration
             </summary>

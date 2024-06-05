@@ -1,33 +1,40 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DomainLayer.Interface.IRepo;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using DomainLayer.AcessLayer;
-using DomainLayer.Interface.IRepo;
-using BusinessLayer.Helper;
 using DomainLayer.ViewModels;
+using BusinessLayer.Helper;
 
+/// <summary>
+/// Service class for user-related operations.
+/// </summary>
 public class UserService
 {
-    /// <summary>
-    /// impelementation of  password reset sending servive using send grid
-    /// </summary>
     private readonly IUnitOfWork _context;
     private readonly IEmailRepo _emailSender;
-    private readonly IConfiguration _configuration;
     private readonly OtpService _otpService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// </summary>
+    /// <param name="context">The unit of work context.</param>
+    /// <param name="emailSender">The email sender service.</param>
+    /// <param name="configuration">The application configuration.</param>
+    /// <param name="otpService">The OTP service.</param>
     public UserService(IUnitOfWork context, IEmailRepo emailSender, IConfiguration configuration, OtpService otpService)
     {
         _context = context;
-        _emailSender = emailSender;
-        _configuration = configuration;
         _otpService = otpService;
+
+        // Initialize email sender with IConfiguration directly
+        _emailSender = new EmailSender(configuration);
     }
+
     /// <summary>
-    /// this send the password reste otp to email 
+    /// Sends the password reset OTP to the email.
     /// </summary>
-    /// <param name="email"> this takes the email</param>
-    /// <returns>email format</returns>
-    /// <exception cref="Exception"> if user mail not found</exception>
+    /// <param name="email">The email address to which the OTP will be sent.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SendPasswordResetOtpAsync(string email)
     {
         var user = await _context.Context.Users.SingleOrDefaultAsync(u => u.Email == email);
@@ -53,12 +60,13 @@ public class UserService
         // Send the email
         await _emailSender.SendEmailAsync(email, subject, message);
     }
+
     /// <summary>
-    /// this verfy the otp from the mail
+    /// Verifies the OTP from the mail.
     /// </summary>
-    /// <param name="email"> use email of user</param>
-    /// <param name="otp"> for opotional </param>
-    /// <returns></returns>
+    /// <param name="email">The email address to verify OTP for.</param>
+    /// <param name="otp">The OTP code to verify.</param>
+    /// <returns>True if the OTP is valid; otherwise, false.</returns>
     public async Task<bool> VerifyOtpAsync(string email, string otp)
     {
         var user = await _context.Context.Users.SingleOrDefaultAsync(u => u.Email == email);
@@ -74,12 +82,12 @@ public class UserService
 
         return true;
     }
+
     /// <summary>
-    /// this reset the password and save it as hash 
+    /// Resets the password and saves it as hash.
     /// </summary>
-    /// <param name="reset">this take viewmodel pasrameter </param>
-    /// <returns>save password</returns>
-    /// <exception cref="Exception">if user is not found</exception>
+    /// <param name="reset">The password reset model containing email and new password.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task ResetPasswordAsync(ResetPasswordModel reset)
     {
         var user = await _context.Context.Users.SingleOrDefaultAsync(u => u.Email == reset.Email);

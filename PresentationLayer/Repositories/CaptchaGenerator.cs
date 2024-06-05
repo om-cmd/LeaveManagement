@@ -1,10 +1,8 @@
 ﻿using DomainLayer.Interface.IRepo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 
 namespace BusinessLayer.Repositories
 {/// <summary>

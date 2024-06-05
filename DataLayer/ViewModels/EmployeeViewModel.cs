@@ -6,7 +6,6 @@ namespace PresentationLayer.VIewModels
 {
     public class EmployeeViewModel
     {
-        public string EmployeeName { get; set; }
         [ValidateEmail]
         public string Email { get; set; }
         [ValidatePhone]

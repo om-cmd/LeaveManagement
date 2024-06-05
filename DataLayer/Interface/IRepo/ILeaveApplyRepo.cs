@@ -11,5 +11,8 @@ namespace DomainLayer.IRepoInterface.IRepo
         LeaveApply CreateLeaveApplication(LeaveApplyViewModel model);
         LeaveApply UpdateLeaveApplication(int id, LeaveApplyViewModel model);
         LeaveApplyViewModel DeleteLeaveApplication(int id);
+
+       Task <LeaveApply>  UpdateLeaveApplicationStatusAsync(int id, ApprovalStatus status);
+
     }
 }

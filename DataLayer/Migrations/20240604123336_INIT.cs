@@ -34,6 +34,8 @@ namespace DomainLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PasswordResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordResetTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     LeftDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -60,11 +62,17 @@ namespace DomainLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    IsLeave = table.Column<bool>(type: "bit", nullable: false)
+                    IsLeave = table.Column<bool>(type: "bit", nullable: false),
+                    LeaveTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DTbl_LeaveTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DTbl_LeaveTypes_DTbl_LeaveTypes_LeaveTypeId",
+                        column: x => x.LeaveTypeId,
+                        principalTable: "DTbl_LeaveTypes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -73,6 +81,8 @@ namespace DomainLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PasswordResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordResetTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -156,7 +166,8 @@ namespace DomainLayer.Migrations
                     AllocatedThisYear = table.Column<int>(type: "int", nullable: false),
                     UsedThisYear = table.Column<int>(type: "int", nullable: false),
                     PersonId = table.Column<int>(type: "int", nullable: false),
-                    LeaveApplyId = table.Column<int>(type: "int", nullable: false)
+                    LeaveApplyId = table.Column<int>(type: "int", nullable: false),
+                    LeaveTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,6 +184,12 @@ namespace DomainLayer.Migrations
                         principalTable: "DTbl_LeaveApply",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DTbl_LeaveBalances_DTbl_LeaveTypes_LeaveTypeId",
+                        column: x => x.LeaveTypeId,
+                        principalTable: "DTbl_LeaveTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -191,9 +208,19 @@ namespace DomainLayer.Migrations
                 column: "LeaveApplyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DTbl_LeaveBalances_LeaveTypeId",
+                table: "DTbl_LeaveBalances",
+                column: "LeaveTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DTbl_LeaveBalances_PersonId",
                 table: "DTbl_LeaveBalances",
                 column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DTbl_LeaveTypes_LeaveTypeId",
+                table: "DTbl_LeaveTypes",
+                column: "LeaveTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notification_EmployeeId",
